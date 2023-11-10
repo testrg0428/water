@@ -1,0 +1,2812 @@
+
+
+########################################################
+#### 確認檔案是否存在, 存在的話如果檔案大小超過 10 Mb, 則換新的檔案
+#################
+
+        ## 確認檔案是否存在, 存在的話如果檔案大小超過 10 Mb, 則換新的檔案
+        date_num=0
+        while true; do
+            filename="$target_path/$target_file-$stock_num-$date_num.json"
+            if [ -e "$filename" ]; then  ## if $filename is exists
+                size=$(du -b "$filename" | awk '{print $1/1024/1024}')
+                if [ `echo "$size > 10"|bc` -eq 1 ]; then
+                    date_num=$((date_num+1))
+                    continue
+                fi
+            fi
+            # 在这里执行你的操作，比如将数据写入 $filename 文件中
+            break
+        done
+
+
+########################################################
+#### 自動執行, 下午三點執行
+#################
+
+sudo nano /etc/crontab
+
+0 15 * * * /bin/bash /home/test/src/github/stock/1-day-import-to-json.sh
+15 15 * * * /bin/bash /home/test/src/github/stock/2-etf-start.sh
+0 20 * * * /bin/bash /home/test/src/github/stock/3-realtime-start.sh
+0 23 * * * /bin/bash /home/test/src/github/stock/4-stock-start.sh
+
+sudo /etc/init.d/cron restart
+
+########################################################
+#### 合併 json 
+#################
+
+pi@raspberrypi:~/src/github/stock $ jq . a1.sh
+{
+  "20230928": {
+    "date": "2023-09-28T00:00:00+08:00",
+    "dealerBuyM": 9256,
+    "dealerDiffM": -1811,
+    "dealerSellM": 11067,
+    "foreignBuyM": 88742,
+    "foreignDiffM": -7734,
+    "foreignSellM": 96476,
+    "investmentTrustBuyM": 6547,
+    "investmentTrustDiffM": 3372,
+    "investmentTrustSellM": 3175,
+    "totalBuyM": 104513,
+    "totalDiffM": -6188,
+    "totalSellM": 110701
+  },
+  "20230927": {
+    "date": "2023-09-27T00:00:00+08:00",
+    "dealerBuyM": 7772,
+    "dealerDiffM": -5321,
+    "dealerSellM": 13093,
+    "foreignBuyM": 70251,
+    "foreignDiffM": -1508,
+    "foreignSellM": 71760,
+    "investmentTrustBuyM": 5646,
+    "investmentTrustDiffM": 2092,
+    "investmentTrustSellM": 3554,
+    "totalBuyM": 83646,
+    "totalDiffM": -4738,
+    "totalSellM": 88384
+  }
+}
+pi@raspberrypi:~/src/github/stock $ jq . a2.sh
+{
+  "20230926": {
+    "date": "2023-09-26T00:00:00+08:00",
+    "dealerBuyM": 9256,
+    "dealerDiffM": -1811,
+    "dealerSellM": 11067,
+    "foreignBuyM": 88742,
+    "foreignDiffM": -7734,
+    "foreignSellM": 96476,
+    "investmentTrustBuyM": 6547,
+    "investmentTrustDiffM": 3372,
+    "investmentTrustSellM": 3175,
+    "totalBuyM": 104513,
+    "totalDiffM": -6188,
+    "totalSellM": 110701
+  },
+  "20230925": {
+    "date": "2023-09-25T00:00:00+08:00",
+    "dealerBuyM": 7772,
+    "dealerDiffM": -5321,
+    "dealerSellM": 13093,
+    "foreignBuyM": 70251,
+    "foreignDiffM": -1508,
+    "foreignSellM": 71760,
+    "investmentTrustBuyM": 5646,
+    "investmentTrustDiffM": 2092,
+    "investmentTrustSellM": 3554,
+    "totalBuyM": 83646,
+    "totalDiffM": -4738,
+    "totalSellM": 88384
+  }
+}
+pi@raspberrypi:~/src/github/stock $ jq -s 'add' a1.sh a2.sh
+{
+  "20230928": {
+    "date": "2023-09-28T00:00:00+08:00",
+    "dealerBuyM": 9256,
+    "dealerDiffM": -1811,
+    "dealerSellM": 11067,
+    "foreignBuyM": 88742,
+    "foreignDiffM": -7734,
+    "foreignSellM": 96476,
+    "investmentTrustBuyM": 6547,
+    "investmentTrustDiffM": 3372,
+    "investmentTrustSellM": 3175,
+    "totalBuyM": 104513,
+    "totalDiffM": -6188,
+    "totalSellM": 110701
+  },
+  "20230927": {
+    "date": "2023-09-27T00:00:00+08:00",
+    "dealerBuyM": 7772,
+    "dealerDiffM": -5321,
+    "dealerSellM": 13093,
+    "foreignBuyM": 70251,
+    "foreignDiffM": -1508,
+    "foreignSellM": 71760,
+    "investmentTrustBuyM": 5646,
+    "investmentTrustDiffM": 2092,
+    "investmentTrustSellM": 3554,
+    "totalBuyM": 83646,
+    "totalDiffM": -4738,
+    "totalSellM": 88384
+  },
+  "20230926": {
+    "date": "2023-09-26T00:00:00+08:00",
+    "dealerBuyM": 9256,
+    "dealerDiffM": -1811,
+    "dealerSellM": 11067,
+    "foreignBuyM": 88742,
+    "foreignDiffM": -7734,
+    "foreignSellM": 96476,
+    "investmentTrustBuyM": 6547,
+    "investmentTrustDiffM": 3372,
+    "investmentTrustSellM": 3175,
+    "totalBuyM": 104513,
+    "totalDiffM": -6188,
+    "totalSellM": 110701
+  },
+  "20230925": {
+    "date": "2023-09-25T00:00:00+08:00",
+    "dealerBuyM": 7772,
+    "dealerDiffM": -5321,
+    "dealerSellM": 13093,
+    "foreignBuyM": 70251,
+    "foreignDiffM": -1508,
+    "foreignSellM": 71760,
+    "investmentTrustBuyM": 5646,
+    "investmentTrustDiffM": 2092,
+    "investmentTrustSellM": 3554,
+    "totalBuyM": 83646,
+    "totalDiffM": -4738,
+    "totalSellM": 88384
+  }
+}
+
+
+########################################################
+#### { "data": { "list": [ {"date": "2023-08-18T00:00:00+08:00", ...},{ "date": "2023-09-28T00:00:00+08:00", ...},...]}}
+#### 換成 "20230818":{},"20230928":{}, ...}
+#################
+
+pi@raspberrypi:~/src/github/stock $ jq . ./json/temp/realtime-foreign-list-history-20230929.json
+{
+  "data": {
+    "list": [
+      {
+        "date": "2023-09-28T00:00:00+08:00",
+        "dealerBuyM": 9256,
+        "dealerDiffM": -1811,
+        "dealerSellM": 11067
+      },
+      {
+        "date": "2023-08-18T00:00:00+08:00",
+        "dealerBuyM": 14047,
+        "dealerDiffM": -6113,
+        "dealerSellM": 20160
+      }
+    ],
+    "refreshedTs": "2023-09-28T00:00:00+08:00"
+  },
+  "meta": {}
+}
+
+jq '.data.list | map({(.date | sub("T.*"; "") | sub("-"; "")): .}) | add | with_entries(.key |= sub("-"; ""))' ./json/temp/realtime-foreign-list-history-20230929.json > gg.json
+jq . gg.json
+{
+  "20230928": {
+    "date": "2023-09-28T00:00:00+08:00",
+    "dealerBuyM": 9256,
+    "dealerDiffM": -1811,
+    "dealerSellM": 11067
+  },
+  "20230818": {
+    "date": "2023-08-18T00:00:00+08:00",
+    "dealerBuyM": 14047,
+    "dealerDiffM": -6113,
+    "dealerSellM": 20160
+  }
+}
+pi@raspberrypi:~/src/github/stock $
+
+
+
+
+
+########################################################
+#### {} 轉換成 { "data": { "list": [ {} ] } }
+#################
+
+pi@raspberrypi:~/src/github/stock $ jq . pp.json
+{
+  "symbol": "00929.TW",
+  "symbolName": "復華台灣科技優息",
+  "price": "18.30",
+  "change": "0.17",
+  "changePercent": "+0.94%",
+  "dayHighPrice": "18.36",
+  "dayLowPrice": "18.20",
+  "dayHighLowDiff": "0.16",
+  "yield": "+1.82%",
+  "dividend": "0.33",
+  "totalAssets": "662.17",
+  "volumeK": "286678",
+  "turnover": "5246552",
+  "premium": "0%",
+  "discount": "0%",
+  "performance_1w": "+2.97%",
+  "performance_1m": "+12.61%",
+  "performance_3m": "+17.75%",
+  "performance_6m": null,
+  "rowId": "00929.TW"
+}
+pi@raspberrypi:~/src/github/stock $ jq -n --argjson data "$(cat pp.json)" '{"data": {"list": [$data]}}' > pp2.json
+pi@raspberrypi:~/src/github/stock $ jq . pp2.json
+{
+  "data": {
+    "list": [
+      {
+        "symbol": "00929.TW",
+        "symbolName": "復華台灣科技優息",
+        "price": "18.30",
+        "change": "0.17",
+        "changePercent": "+0.94%",
+        "dayHighPrice": "18.36",
+        "dayLowPrice": "18.20",
+        "dayHighLowDiff": "0.16",
+        "yield": "+1.82%",
+        "dividend": "0.33",
+        "totalAssets": "662.17",
+        "volumeK": "286678",
+        "turnover": "5246552",
+        "premium": "0%",
+        "discount": "0%",
+        "performance_1w": "+2.97%",
+        "performance_1m": "+12.61%",
+        "performance_3m": "+17.75%",
+        "performance_6m": null,
+        "rowId": "00929.TW"
+      }
+    ]
+  }
+}
+
+
+
+########################################################
+#### 尋找在某個資料夾底下所有檔案內 某字串, 但避開某些資料夾
+#################
+
+#範例1:
+
+find . -type f -exec grep -l 'example' {} +
+
+#範例2:
+
+find . -type f -exec grep 'example' {} +
+
+# 範例3: 尋找字串 example
+
+find . \( -path exclude_folder1 -o -path exclude_folder2 \) -prune -o -type f -exec grep -l 'example' {} +
+
+
+
+########################################################
+#### 去除 小數點之後的字  sed 's/\..*//'
+#################
+
+
+pi@raspberrypi:~/src/github/stock $ cat c1.sh
+#!/bin/bash
+
+command=$1
+
+name=$(echo $command | sed 's/\..*//')
+echo "$name"
+
+pi@raspberrypi:~/src/github/stock $ ./c1.sh stock-get-etf-volumeK.sh
+stock-get-etf-volumeK
+
+
+
+########################################################
+#### &> /dev/null
+#################
+
+
+for file in *.json; do
+    if ! jq empty "$file" &> /dev/null; then
+        echo "$file" >> error_log.txt
+    fi
+done
+
+解释一下：
+
+if ! jq empty "$file" &> /dev/null; then: 这个语句首先尝试运行 jq empty "$file" 命令。! 是逻辑取反操作符，
+
+意味着如果 jq 命令返回非零状态（出现错误），则条件成立。&> /dev/null 将命令的输出和错误重定向到空设备，这样它
+
+们不会显示在终端上。
+
+echo "$file" >> error_log.txt: 如果 jq 命令返回非零状态，即出现错误，就会将文件名追加到 error_log.txt 文件中。
+
+这个脚本会逐个处理每个匹配的 JSON 文件，如果 jq 命令出现错误，就会将文件名记录到 error_log.txt 文件中。
+
+
+
+########################################################
+#### 刪除 某個日期的檔案, 但是不刪除 9/17過後的日期 (! -newermt 2023-09-17 )
+#################
+
+find /path/to/files -type f -newermt 2023-09-16 ! -newermt 2023-09-17 -exec rm {} \;
+
+
+########################################################
+#### 刪除 pid
+#################
+
+# 直接刪除 pid: 關鍵字 import
+
+ps -aux | grep import | awk -F" " '{print $2}' | xargs sudo kill -9
+
+
+########################################################
+# 對所有的 json file 進行 jq empty 檢查是否 json file 有空格
+# 當回報錯誤則輸出成 file
+#################
+
+for file in *.json; do
+    if ! jq empty "$file" &> /dev/null; then
+        echo "$file" >> error_log.txt
+    fi
+done
+
+
+########################################################
+#### 中文的 key 讀取下面的 屬性值
+#################
+
+pi@raspberrypi:~/src/github/stock $ jq . water.json
+[
+  {
+    "寶山第二水庫": {
+      "baseAvailable": "3147.18",
+      "id": "reservoir4",
+      "updateAt": "2023-09-15(17時)",
+      "volumn": "3167.15",
+      "percentage": 100,
+      "daliyOverflow": "32.03",
+      "daliyInflow": "31.28",
+      "daliyNetflow": 0.75,
+      "name": "寶山第二水庫"
+    },
+    "日月潭水庫": {
+      "baseAvailable": "12949.09",
+      "id": "reservoir9",
+      "updateAt": "2023-09-15(7時)",
+      "volumn": "12118.92",
+      "percentage": 93.5,
+      "daliyOverflow": "248.83",
+      "daliyInflow": "130.12",
+      "daliyNetflow": 118.71000000000001,
+      "name": "日月潭水庫"
+    },
+    "石門水庫": {
+      "baseAvailable": "20526.01",
+      "id": "reservoir2",
+      "updateAt": "2023-09-15(17時)",
+      "volumn": "20483.30",
+      "percentage": 99.7,
+      "daliyOverflow": "599.18",
+      "daliyInflow": "547.68",
+      "daliyNetflow": 51.5,
+      "name": "石門水庫"
+    }
+  }
+]
+pi@raspberrypi:~/src/github/stock $ ./c1.sh
+属性名: "寶山第二水庫"
+属性值的id: "reservoir4"
+属性名: "日月潭水庫"
+属性值的id: "reservoir9"
+属性名: "石門水庫"
+属性值的id: "reservoir2"
+
+pi@raspberrypi:~/src/github/stock $ cat c1.sh
+#!/bin/bash
+
+for reservoir in $(jq '.[0]' water.json | jq 'keys[]')
+do
+  value=$(jq ".[0].$reservoir.id" water.json)
+  echo "属性名: $reservoir"
+  echo "属性值的id: $value"
+done
+
+
+########################################################
+#### 轉換格式 {}{} --> [{},{}]
+#################
+
+#指令: 指令: jq . cc.json | jq --slurp '.'
+
+jq . cc.json
+{
+  "symbol": "0056.TW",
+  "symbolName": "元大高股息",
+  "price": "35.31",
+  "change": "0.45",
+  "changePercent": "+1.29%",
+  "yield": "+8.89%",
+  "dividend": "3.10",
+  "totalAssets": "2,166.46",
+  "volumeK": "21165",
+  "turnover": "746166",
+  "premium": "-0.28%",
+  "discount": "-0.28%",
+  "rowId": "0056.TW"
+}
+{
+  "symbol": "0050.TW",
+  "symbolName": "元大台灣50",
+  "price": "126.95",
+  "change": "1.75",
+  "changePercent": "+1.4%",
+  "yield": "+3.59%",
+  "dividend": "4.50",
+  "totalAssets": "3,042.21",
+  "volumeK": "7164",
+  "turnover": "906255",
+  "premium": "-0.05%",
+  "discount": "-0.05%",
+  "rowId": "0050.TW"
+}
+
+轉換成
+[
+  {
+    "symbol": "0056.TW",
+    "symbolName": "元大高股息",
+    "price": "35.31",
+    "change": "0.45",
+    "changePercent": "+1.29%",
+    "yield": "+8.89%",
+    "dividend": "3.10",
+    "totalAssets": "2,166.46",
+    "volumeK": "21165",
+    "turnover": "746166",
+    "premium": "-0.28%",
+    "discount": "-0.28%",
+    "rowId": "0056.TW"
+  },
+  {
+    "symbol": "0050.TW",
+    "symbolName": "元大台灣50",
+    "price": "126.95",
+    "change": "1.75",
+    "changePercent": "+1.4%",
+    "yield": "+3.59%",
+    "dividend": "4.50",
+    "totalAssets": "3,042.21",
+    "volumeK": "7164",
+    "turnover": "906255",
+    "premium": "-0.05%",
+    "discount": "-0.05%",
+    "rowId": "0050.TW"
+  }
+]
+
+
+########################################################
+#### 取得一個路徑的 basename
+#################
+
+
+aa="./json/20230912/stock_base5.json"
+count=$(echo "$aa" | awk -F"/" '{print NF-1}')
+echo "Number of slashes in \$aa: $count"
+result=$(echo "$aa" | awk -F"/" '{print $NF}')
+echo "Result after last slash: $result"
+
+
+aa="./20230912/stock_base5.json"
+count=$(echo "$aa" | awk -F"/" '{print NF-1}')
+echo "Number of slashes in \$aa: $count"
+result=$(echo "$aa" | awk -F"/" '{print $NF}')
+echo "Result after last slash: $result"
+
+
+aa="./stock_base5.json"
+count=$(echo "$aa" | awk -F"/" '{print NF-1}')
+echo "Number of slashes in \$aa: $count"
+result=$(echo "$aa" | awk -F"/" '{print $NF}')
+echo "Result after last slash: $result"
+
+
+aa="stock_base5.json"
+count=$(echo "$aa" | awk -F"/" '{print NF-1}')
+echo "Number of slashes in \$aa: $count"
+result=$(echo "$aa" | awk -F"/" '{print $NF}')
+echo "Result after last slash: $result"
+
+
+aa="./json/20230912/stock_base5.json"
+result=$(basename "$aa")
+echo "Result: $result"
+
+pi@raspberrypi:~/src/github/stock $ ./dd.sh
+Number of slashes in $aa: 3
+Result after last slash: stock_base5.json
+Number of slashes in $aa: 2
+Result after last slash: stock_base5.json
+Number of slashes in $aa: 1
+Result after last slash: stock_base5.json
+Number of slashes in $aa: 0
+Result after last slash: stock_base5.json
+Result: stock_base5.json
+pi@raspberrypi:~/src/github/stock $
+
+
+########################################################
+#### 數值的判定, 包含小數, 負數
+#################
+
+#範例1:
+
+if [[ $input =~ ^[+-]?[0-9]*\.?[0-9]+$ ]]; then
+  echo "变量是一个数值"
+else
+  echo "变量是一个字符串"
+fi
+
+測試以下皆符合期待:
+
+00833R
+变量是一个字符串
+00833
+变量是一个数值
+5.1
+变量是一个数值
+-3.1
+变量是一个数值
++50
+变量是一个数值
+
+
+#範例2:
+
+stock_id="00929"
+
+# 使用正则表达式检查是否只包含数字
+if [[ $stock_id =~ ^[0-9]+$ ]]; then
+  stock_num=$(echo "$stock_id / 500 - 1 + ($stock_id - 1000) / 10" | bc)
+  echo "输入是一个数字"
+else
+  stock_num=1000
+fi
+
+echo "stock_id: $stock_id"
+echo "stock_num: $stock_num"
+
+
+########################################################
+#### 從某個資料夾內判斷所有的 json 檔案進行 jq 處裡
+#################
+
+# 指定要处理的文件夹路径
+folder_path="/path/to/your/folder"
+
+# 遍历文件夹中的所有 JSON 文件
+for file in "$folder_path"/*.json; do
+  if [ -f "$file" ]; then
+    # 使用 jq 处理每个 JSON 文件
+    jq XXX "$file"
+  fi
+done
+
+
+########################################################
+#### 將某個 stock-XX 全部提出來存成新的 json, 並更新到 new_json.json
+#################
+
+#範例1:
+
+step1. 從 stock_base.json 提取 stock-1504 到 b1.json
+jq '{ "stock-1504": .["stock-1504"] }' stock_base.json > b1.json
+
+step2. 將 新的 json(b1.json) 更新到舊的 json(stock_base3.json)
+jq -s '.[0] * .[1]' stock_base3.json b1.json > new_json.json
+
+b1.json 是新資料, 更新到 stock_base3.json內更新不覆蓋
+
+--
+
+test@test-All-Series:~/src/github/stock/example/stock$ jq . stock_base.json
+{
+  "stock-1504": {
+    "20230826": [
+      {
+        "ask": 99.1,
+        "bid": 91,
+        "change": 9.8,
+        "changePercent": 99.65,
+        "limitDownPrice": 44.4,
+        "limitUpPrice": 54.2,
+        "previousVolume": 8938000,
+        "AA": null,
+        "price": 51.1,
+        "sectorId": 6,
+        "sectorName": "電機",
+        "symbol": "1504.TW",
+        "symbolName": "東元",
+        "systexId": 1504,
+        "turnoverM": 950.732,
+        "volume": 18655000,
+        "previousVolumeK": 8938,
+        "volumeK": 18655,
+        "stock_id": "1504",
+        "date": "20230826"
+      }
+    ],
+    "20230830": [
+      {
+        "ask": 88.1,
+        "bid": 88,
+        "change": 88.8,
+        "changePercent": 3.65,
+        "limitDownPrice": 44.4,
+        "limitUpPrice": 54.2,
+        "previousVolume": 8938000,
+        "price": 51.1,
+        "sectorId": 6,
+        "sectorName": "電機",
+        "symbol": "1504.TW",
+        "symbolName": "東元",
+        "systexId": 1504,
+        "turnoverM": 950.732,
+        "volume": 18655000,
+        "previousVolumeK": 8938,
+        "volumeK": 18655,
+        "stock_id": "1504",
+        "date": "20230826"
+      }
+    ]
+  },
+  "stock-3044": {
+    "20230826": [
+      {
+        "ask": 197.5,
+        "bid": 197,
+        "change": 7.5,
+        "changePercent": 3.96,
+        "limitDownPrice": 171,
+        "limitUpPrice": 208,
+        "previousVolume": 20027000,
+        "price": 197,
+        "sectorId": 44,
+        "sectorName": "電子零組件",
+        "symbol": "3044.TW",
+        "symbolName": "健鼎",
+        "systexId": 3044,
+        "turnoverM": 4339.814,
+        "volume": 21956000,
+        "previousVolumeK": 20027,
+        "volumeK": 21956,
+        "stock_id": "3044",
+        "date": "20230826"
+      }
+    ]
+  }
+}
+
+test@test-All-Series:~/src/github/stock/example/stock$ jq '{ "stock-1504": .["stock-1504"] }' stock_base.json > b1.json
+test@test-All-Series:~/src/github/stock/example/stock$ jq . b1.json
+{
+  "stock-1504": {
+    "20230826": [
+      {
+        "ask": 99.1,
+        "bid": 91,
+        "change": 9.8,
+        "changePercent": 99.65,
+        "limitDownPrice": 44.4,
+        "limitUpPrice": 54.2,
+        "previousVolume": 8938000,
+        "AA": null,
+        "price": 51.1,
+        "sectorId": 6,
+        "sectorName": "電機",
+        "symbol": "1504.TW",
+        "symbolName": "東元",
+        "systexId": 1504,
+        "turnoverM": 950.732,
+        "volume": 18655000,
+        "previousVolumeK": 8938,
+        "volumeK": 18655,
+        "stock_id": "1504",
+        "date": "20230826"
+      }
+    ],
+    "20230830": [
+      {
+        "ask": 88.1,
+        "bid": 88,
+        "change": 88.8,
+        "changePercent": 3.65,
+        "limitDownPrice": 44.4,
+        "limitUpPrice": 54.2,
+        "previousVolume": 8938000,
+        "price": 51.1,
+        "sectorId": 6,
+        "sectorName": "電機",
+        "symbol": "1504.TW",
+        "symbolName": "東元",
+        "systexId": 1504,
+        "turnoverM": 950.732,
+        "volume": 18655000,
+        "previousVolumeK": 8938,
+        "volumeK": 18655,
+        "stock_id": "1504",
+        "date": "20230826"
+      }
+    ]
+  }
+}
+test@test-All-Series:~/src/github/stock/example/stock$ jq . stock_base3.json
+{
+  "stock-1504": {
+    "20230826": [
+      {
+        "ask": 51.1,
+        "bid": 51,
+        "change": 1.8,
+        "changePercent": 3.65,
+        "limitDownPrice": 44.4,
+        "limitUpPrice": 54.2,
+        "previousVolume": 8938000,
+        "price": 51.1,
+        "sectorId": 6,
+        "sectorName": "電機",
+        "symbol": "1504.TW",
+        "symbolName": "東元",
+        "systexId": 1504,
+        "turnoverM": 950.732,
+        "volume": 18655000,
+        "previousVolumeK": 8938,
+        "volumeK": 18655,
+        "stock_id": "1504",
+        "date": "20230826"
+      }
+    ],
+    "20230828": [
+      {
+        "ask": 51.1,
+        "bid": 51,
+        "change": 1.8,
+        "changePercent": 3.65,
+        "limitDownPrice": 44.4,
+        "limitUpPrice": 54.2,
+        "previousVolume": 8938000,
+        "price": 51.1,
+        "sectorId": 6,
+        "sectorName": "電機",
+        "symbol": "1504.TW",
+        "symbolName": "東元",
+        "systexId": 1504,
+        "turnoverM": 950.732,
+        "volume": 18655000,
+        "previousVolumeK": 8938,
+        "volumeK": 18655,
+        "stock_id": "1504",
+        "date": "20230826"
+      }
+    ],
+    "20230830": [
+      {
+        "ask": 51.1,
+        "bid": 51,
+        "change": 1.8,
+        "changePercent": 3.65,
+        "limitDownPrice": 44.4,
+        "limitUpPrice": 54.2,
+        "previousVolume": 8938000,
+        "price": 51.1,
+        "sectorId": 6,
+        "sectorName": "電機",
+        "symbol": "1504.TW",
+        "symbolName": "東元",
+        "systexId": 1504,
+        "turnoverM": 950.732,
+        "volume": 18655000,
+        "previousVolumeK": 8938,
+        "volumeK": 18655,
+        "stock_id": "1504",
+        "date": "20230826"
+      }
+    ]
+  }
+}
+
+test@test-All-Series:~/src/github/stock/example/stock$ jq -s '.[0] * .[1]' stock_base3.json b1.json > new_json.json
+
+test@test-All-Series:~/src/github/stock/example/stock$ jq . new_json.json  (B1.json 更新到 stock_base3.json 內)
+{
+  "stock-1504": {
+    "20230826": [
+      {
+        "ask": 99.1,
+        "bid": 91,
+        "change": 9.8,
+        "changePercent": 99.65,
+        "limitDownPrice": 44.4,
+        "limitUpPrice": 54.2,
+        "previousVolume": 8938000,
+        "AA": null,
+        "price": 51.1,
+        "sectorId": 6,
+        "sectorName": "電機",
+        "symbol": "1504.TW",
+        "symbolName": "東元",
+        "systexId": 1504,
+        "turnoverM": 950.732,
+        "volume": 18655000,
+        "previousVolumeK": 8938,
+        "volumeK": 18655,
+        "stock_id": "1504",
+        "date": "20230826"
+      }
+    ],
+    "20230828": [
+      {
+        "ask": 51.1,
+        "bid": 51,
+        "change": 1.8,
+        "changePercent": 3.65,
+        "limitDownPrice": 44.4,
+        "limitUpPrice": 54.2,
+        "previousVolume": 8938000,
+        "price": 51.1,
+        "sectorId": 6,
+        "sectorName": "電機",
+        "symbol": "1504.TW",
+        "symbolName": "東元",
+        "systexId": 1504,
+        "turnoverM": 950.732,
+        "volume": 18655000,
+        "previousVolumeK": 8938,
+        "volumeK": 18655,
+        "stock_id": "1504",
+        "date": "20230826"
+      }
+    ],
+    "20230830": [
+      {
+        "ask": 88.1,
+        "bid": 88,
+        "change": 88.8,
+        "changePercent": 3.65,
+        "limitDownPrice": 44.4,
+        "limitUpPrice": 54.2,
+        "previousVolume": 8938000,
+        "price": 51.1,
+        "sectorId": 6,
+        "sectorName": "電機",
+        "symbol": "1504.TW",
+        "symbolName": "東元",
+        "systexId": 1504,
+        "turnoverM": 950.732,
+        "volume": 18655000,
+        "previousVolumeK": 8938,
+        "volumeK": 18655,
+        "stock_id": "1504",
+        "date": "20230826"
+      }
+    ]
+  }
+}
+
+
+#範例2: 將某個 array 底下所有屬性移出, 並帶上 stock-xx 以及時間
+
+#指令:
+jq '{
+  "stock-\(.basicInfo.symbol | sub("\\.TW$"; "") | sub("\\.TW$"; ""))": {
+    "\(.returnDate | gsub("/";""))": [
+      .basicInfo + { "returnDate": .returnDate }
+    ]
+  }
+}' s2.json
+
+pi@raspberrypi:~/src/github/stock $ jq . s2.json
+{
+  "basicInfo": {
+    "providerCompanyId": "86384477",
+    "symbol": "0056.TW",
+    "ticker": "0056",
+    "totalAssets": "219800000000.00",
+    "primaryProspectusBenchmarkId": "48966213",
+    "primaryProspectusBenchmark": "臺灣高股息指數",
+    "inceptionDate": "2007/12/13",
+    "managementfee": "0.3000%",
+    "custodianfee": "0.035%",
+    "managementfeeMax": "0.4000%",
+    "totalAssetsDate": "2023/09/09"
+  },
+  "returnDate": "2023/09/08",
+}
+
+如何將 basicInfo 內的屬性 symbol以及returnDate取出, 變成 如下的結構:
+
+pi@raspberrypi:~/src/github/stock $ jq . s2.json
+{
+  "stock-0056": {
+    "20230908": [
+      {
+        "providerCompanyId": "86384477",
+        "symbol": "0056.TW",
+        "ticker": "0056",
+        "totalAssets": "219800000000.00",
+        "primaryProspectusBenchmarkId": "48966213",
+        "primaryProspectusBenchmark": "臺灣高股息指數",
+        "inceptionDate": "2007/12/13",
+        "managementfee": "0.3000%",
+        "custodianfee": "0.035%",
+        "managementfeeMax": "0.4000%",
+        "totalAssetsDate": "2023/09/09",
+        "returnDate": "2023/09/08"
+      }
+    ]
+  }
+}
+
+
+########################################################
+#### 宣告支援 utf-8
+#################
+
+
+#!/bin/bash
+# -*- coding: UTF-8 -*-
+
+
+########################################################
+#### 兩種 object 合併成一個
+#################
+
+pi@raspberrypi:~/src/github/stock $ jq . etf-id-1.json
+[
+  "00929",
+  "00919",
+  "00632R",
+  "00637L",
+  "00673R",
+  "00878",
+  "00715L",
+  "00918",
+  "00915",
+  "00931B",
+  "00753L",
+  "00923",
+  "00665L",
+  "00772B",
+  "00712",
+  "0056",
+  "00696B",
+  "00932"
+]
+pi@raspberrypi:~/src/github/stock $ jq . etf-id-2.json
+[
+  "0050",
+  "0056",
+  "00878",
+  "00772B",
+  "00679B",
+  "00751B",
+  "00724B",
+  "00761B",
+  "00720B",
+  "00773B",
+  "00725B",
+  "00746B"
+]
+
+如何合併成如下, 且變成裡面的屬性唯一
+
+pi@raspberrypi:~/src/github/stock $ jq . etf-id-1.json
+[
+  "00929",
+  "00919",
+  "00632R",
+  "00637L",
+  "00673R",
+  "00878",
+  "00715L",
+  "00918",
+  "00915",
+  "00931B",
+  "00753L",
+  "00923",
+  "00665L",
+  "00772B",
+  "00712",
+  "0056",
+  "00696B",
+  "00932",
+  "0050",
+  "0056",
+  "00878",
+  "00772B",
+  "00679B",
+  "00751B",
+  "00724B",
+  "00761B",
+  "00720B",
+  "00773B",
+  "00725B",
+  "00746B"
+]
+
+
+jq -s 'flatten | unique' etf-id-1.json etf-id-2.json > combined.json
+
+
+
+########################################################
+#### 儲存排序的順位
+#################
+
+
+# 获取所有 stock- 元素中 $DATE 内的 $ATTR 属性值，并按照排序顺序存储在 SORT_ATTR 变量中
+IFS=$'\n' SORT_ATTR=($(jq -r ".[] | select(.\"$DATE\"[0].\"$ATTR\" != null) | .\"$DATE\"[0].\"$ATTR\"" "$1" | awk '{print NR, $0}' | sort -k2,2$([ "$SORT_ORDER" == "asc" ] && echo "n" || echo "nr") | awk '{print $1}'))
+
+這個 ${SORT_ATTR[@]} 是正確的
+
+
+# 遍历 SORT_ATTR 中的排序顺序，获取每个 stock- 元素中 $DATE 内的 $DISPLAY_ATTR 属性的值
+for index in "${SORT_ATTR[@]}"; do
+  idx=$(($index - 1)) # 索引从1开始，需要减1
+  jq -r ".[] | select(.\"$DATE\"[0].\"$ATTR\" != null) | .\"$DATE\"[0].\"$DISPLAY_ATTR\"" "$1" | awk "NR==$index {print $0}"
+done
+
+
+也可以參考  sort-attr-var.sh:
+
+sort_attr_var()
+{
+
+    # 提取参数
+    local source_json_file="$1"
+    local date="$2"
+    local attr="$3"
+    local sort_order="$4"
+
+    local DATE=$(date '+%Y%m%d%H%M')
+
+    rm -rf sorted-$attr-$sort_order-tmp.json
+
+    # 使用jq过滤和排序JSON数据, 排除 日期是 null, 還有 屬性是 null 的 JSON. 這個寫法會連其他的日期也輸出!!!!
+#    filtered_json=$(jq ".[] | select(.[\"$date\"] != null and .[\"$date\"][0][\"$attr\"] != null)" "$source_json_file")
+    ## test pass, 只保留該日期的 json 輸出
+#    filtered_json=$(jq ".[] | select(.\"$date\" != null) | {\"$date\": .\"$date\"}" "$source_json_file")
+    filtered_json=$(jq ".[] | select(.\"$date\" != null and .[\"$date\"][0][\"$attr\"] != null) | {\"$date\": .\"$date\"}" "$source_json_file")
+
+
+    # 根据SORT_ORDER排序
+    if [ "$sort_order" = "asc" ]; then
+        sorted_json=$(echo "$filtered_json" | jq -s "sort_by(.[\"$date\"][0][\"$attr\"])")
+    elif [ "$sort_order" = "desc" ]; then
+        sorted_json=$(echo "$filtered_json" | jq -s "sort_by(-.[\"$date\"][0][\"$attr\"])")
+    else
+        echo "Invalid SORT_ORDER. Use 'asc' or 'desc'."
+        exit 1
+    fi
+
+    echo $sorted_json > sorted-$attr-$sort_order-tmp.json
+
+    # 提取排序后的索引并存储在SORT_ATTR数组中  test pass
+    SORT_ATTR=()
+
+    index=0
+
+    # 遍历排序后的JSON对象的属性值，它将属性值存储在变量 item 中
+    for item in $(echo "$sorted_json" | jq -r ".[] | .[\"$date\"][0][\"$attr\"]"); do
+
+        # 在原始JSON文件中查找与属性值 item 匹配的索引。首先，它使用 jq 从原始JSON文件中提取相同属性的值，然后使用
+        # grep -n "$item" 来查找包含属性值的行，并使用 cut 命令来提取行号，最终将行号存储在变量 i 中。
+#       for i in $(jq -r ".[] | .[\"$date\"][0][\"$attr\"]" "$source_json_file" | grep -n "$item" | cut -d':' -f1); do
+        for i in $(jq -r ".[] | .[\"$date\"][0][\"$attr\"]" "$source_json_file" | grep -n -- "$item" | cut -d':' -f1); do
+            SORT_ATTR[$index]=$((i-1))
+            index=$((index+1))
+        done
+
+    done
+
+    ## 將順序存成變量, 提供順序抓 DATA
+    echo "SORT_ATTR_VAR=(${SORT_ATTR[@]})" > sort-attr-var.ini
+
+}
+
+sort_attr_var "$1" "$2" "$3" "$4"
+
+########################################################
+#### 將 object 換成 array
+#################
+
+#範例1:
+
+指令:
+jq 'reduce .[] as $item ({}; . + {($item.date[:10] | gsub("-";"")): [$item]})' ./aa.json > aaa.json
+
+jq . aa.json
+[
+  {
+    "date": "2023-09-01T00:00:00+08:00",
+    "dealerBuyM": 9712,
+    "dealerDiffM": -3194,
+    "dealerSellM": 12907,
+    "foreignBuyM": 74532,
+    "foreignDiffM": -8536,
+    "foreignSellM": 83069,
+    "investmentTrustBuyM": 6933,
+    "investmentTrustDiffM": 2969,
+    "investmentTrustSellM": 3964,
+    "totalBuyM": 91151,
+    "totalDiffM": -8766,
+    "totalSellM": 99917
+  },
+]
+轉換成:
+{
+  "20230901": [
+    {
+      "date": "2023-09-01T00:00:00+08:00",
+      "dealerBuyM": 9712,
+      "dealerDiffM": -3194,
+      "dealerSellM": 12907,
+      "foreignBuyM": 74532,
+      "foreignDiffM": -8536,
+      "foreignSellM": 83069,
+      "investmentTrustBuyM": 6933,
+      "investmentTrustDiffM": 2969,
+      "investmentTrustSellM": 3964,
+      "totalBuyM": 91151,
+      "totalDiffM": -8766,
+      "totalSellM": 99917
+    }
+  ],
+}
+
+
+##範例2: 剝掉一層 object []
+
+pi@raspberrypi:~/src/github/stock $ jq . aa.json
+[
+  {
+    "date": "2023-09-01T00:00:00+08:00",
+    "dealerBuyM": 9712,
+    "dealerDiffM": -3194,
+    "dealerSellM": 12907,
+    "totalDiffM": -8766,
+    "totalSellM": 99917
+  }
+]
+
+pi@raspberrypi:~/src/github/stock $ jq '.[0]' aa.json
+{
+  "date": "2023-09-01T00:00:00+08:00",
+  "dealerBuyM": 9712,
+  "dealerDiffM": -3194,
+  "dealerSellM": 12907,
+  "totalDiffM": -8766,
+  "totalSellM": 99917
+}
+
+
+
+########################################################
+#### 多個 json file 載入給 JQ 使用
+#################
+
+
+cat file1.json file2.json file3.json | jq 'sort_by(.some_property)'
+
+
+########################################################
+#### 查詢陣列有多少個元素
+#################
+
+
+jq length sorted_json-tmp.json
+
+
+########################################################
+#### 將某個 object 內底下的屬性 全部移出來到頂層的 array 內, 並刪除該 object
+#################
+
+
+pi@raspberrypi:~/src/github/stock $ jq . ss.json
+[
+  {
+    "exchange": null,
+    "symbol": "6129.TWO",
+    "date": "2023-08-28T00:00:00+08:00",
+    "updatedTs": null,
+    "dayTradingVolK": "0",
+    "shortFinancingPercent": "0.41",
+    "financingBuyVolK": "12",
+    "financingSellVolK": "11",
+    "financingPaybackVolK": "2",
+    "financingTotalVolK": "8487",
+    "financingLimitVolK": "45235",
+    "financingBuyM": null,
+    "financingSellM": null,
+    "financingPaybackM": null,
+    "financingTotalM": null,
+    "financingUsageRatio": "0.187600",
+    "financingChangeM": null,
+    "financingChangePercent": null,
+    "shortBuyVolK": "2",
+    "shortSellVolK": "1",
+    "shortRepayVolK": "0",
+    "shortTotalVolK": "35",
+    "shortLimitVolK": "45235",
+    "shortChangeVolK": null,
+    "shortChangePercent": null,
+    "shortUsageRatio": "0.000800",
+    "shortFinancingPercentChange": null,
+    "lendingSellVolK": "8",
+    "lendingRepayVolK": "149",
+    "lendingTotalVolK": "6524",
+    "period": "day",
+    "periodSum": null,
+    "endDate": null,
+    "totalDays": 0,
+    "holderInfo": {
+      "brokerTradeSummary": {
+        "date": "2023-09-01T00:00:00+08:00",
+        "totalOverbuyVolK": "204",
+        "totalOverbuyVolK5D": "1785",
+        "totalOverbuyVolK20D": "12033",
+        "totalOversellVolK": "274",
+        "totalOversellVolK5D": "2242",
+        "totalOversellVolK20D": "10620",
+        "totalDiffVolK": "-70",
+        "totalDiffVolK5D": "-457",
+        "totalDiffVolK20D": "1413"
+      },
+      "holderStats": {
+        "date": "2023-08-28T00:00:00+08:00",
+        "dirSupHoldPercent": "2.73",
+        "foreignHoldPercent": "61.39",
+        "mainHoldPercent": "18.42",
+        "refreshedTs": "2023-09-01T00:00:00+08:00"
+      },
+      "trade": {
+        "date": "2023-09-01T00:00:00+08:00",
+        "dealerBuyVolK": "16",
+        "dealerDiffVolK": "-22",
+        "dealerHoldPercent": "2.38",
+        "dealerHoldVolK": "1724",
+        "dealerSellVolK": "38",
+        "foreignBuyVolK": "302",
+        "foreignDiffVolK": "16",
+        "foreignHoldPercent": "61.39",
+        "foreignHoldVolK": "45395",
+        "foreignSellVolK": "285",
+        "investmentTrustBuyVolK": "0",
+        "investmentTrustDiffVolK": "0",
+        "investmentTrustHoldPercent": "14.9",
+        "investmentTrustHoldVolK": "10803",
+        "investmentTrustSellVolK": "0",
+        "totalBuyVolK": "317",
+        "totalDiffVolK": "-6",
+        "totalSellVolK": "323"
+      }
+    }
+  }
+]
+pi@raspberrypi:~/src/github/stock $ jq '.[] | . + .holderInfo.brokerTradeSummary | . + {brokerTradeSummarydate: .holderInfo.brokerTradeSummary.date} | del(.holderInfo.brokerTradeSummary)' ss.json
+{
+  "exchange": null,
+  "symbol": "6129.TWO",
+  "date": "2023-09-01T00:00:00+08:00",
+  "updatedTs": null,
+  "dayTradingVolK": "0",
+  "shortFinancingPercent": "0.41",
+  "financingBuyVolK": "12",
+  "financingSellVolK": "11",
+  "financingPaybackVolK": "2",
+  "financingTotalVolK": "8487",
+  "financingLimitVolK": "45235",
+  "financingBuyM": null,
+  "financingSellM": null,
+  "financingPaybackM": null,
+  "financingTotalM": null,
+  "financingUsageRatio": "0.187600",
+  "financingChangeM": null,
+  "financingChangePercent": null,
+  "shortBuyVolK": "2",
+  "shortSellVolK": "1",
+  "shortRepayVolK": "0",
+  "shortTotalVolK": "35",
+  "shortLimitVolK": "45235",
+  "shortChangeVolK": null,
+  "shortChangePercent": null,
+  "shortUsageRatio": "0.000800",
+  "shortFinancingPercentChange": null,
+  "lendingSellVolK": "8",
+  "lendingRepayVolK": "149",
+  "lendingTotalVolK": "6524",
+  "period": "day",
+  "periodSum": null,
+  "endDate": null,
+  "totalDays": 0,
+  "holderInfo": {
+    "holderStats": {
+      "date": "2023-08-28T00:00:00+08:00",
+      "dirSupHoldPercent": "2.73",
+      "foreignHoldPercent": "61.39",
+      "mainHoldPercent": "18.42",
+      "refreshedTs": "2023-09-01T00:00:00+08:00"
+    },
+    "trade": {
+      "date": "2023-09-01T00:00:00+08:00",
+      "dealerBuyVolK": "16",
+      "dealerDiffVolK": "-22",
+      "dealerHoldPercent": "2.38",
+      "dealerHoldVolK": "1724",
+      "dealerSellVolK": "38",
+      "foreignBuyVolK": "302",
+      "foreignDiffVolK": "16",
+      "foreignHoldPercent": "61.39",
+      "foreignHoldVolK": "45395",
+      "foreignSellVolK": "285",
+      "investmentTrustBuyVolK": "0",
+      "investmentTrustDiffVolK": "0",
+      "investmentTrustHoldPercent": "14.9",
+      "investmentTrustHoldVolK": "10803",
+      "investmentTrustSellVolK": "0",
+      "totalBuyVolK": "317",
+      "totalDiffVolK": "-6",
+      "totalSellVolK": "323"
+    }
+  },
+  "totalOverbuyVolK": "204",
+  "totalOverbuyVolK5D": "1785",
+  "totalOverbuyVolK20D": "12033",
+  "totalOversellVolK": "274",
+  "totalOversellVolK5D": "2242",
+  "totalOversellVolK20D": "10620",
+  "totalDiffVolK": "-70",
+  "totalDiffVolK5D": "-457",
+  "totalDiffVolK20D": "1413",
+  "brokerTradeSummarydate": "2023-09-01T00:00:00+08:00"
+}
+
+
+########################################################
+#### 透過 JQ 知道一些資訊:
+#################
+
+
+你想看到 source json file 有哪些日期的資料, 你可以下達:
+
+jq -r '.. | .date?' stock_base.json | grep -v 'null' | sort | uniq
+
+
+如果如果想知道 stock-xxx 有多少個, 可以下達:
+
+jq 'keys | map(select(test("^stock-"))) | length' stock_base2.json"
+7
+
+如果如果想知道 stock-xxx 有哪些, 可以下達:
+
+jq 'keys | map(select(test("^stock-")))[]' stock_base2.json"
+"stock-1312"
+"stock-1504"
+"stock-2382"
+"stock-2383"
+"stock-3029"
+"stock-3037"
+"stock-3044"
+
+
+pi@raspberrypi:~/src/github/stock/example/stock $ jq . stock_base2.json
+{
+  "stock-1504": {
+    "20230826": [
+      {
+        "ask": 51.1,
+        "bid": 51,
+        "change": 1.8,
+        "changePercent": 3.65,
+        "limitDownPrice": 44.4,
+        "limitUpPrice": 54.2,
+        "previousVolume": 8938000,
+        "price": 51.1,
+        "regularMarketDayHigh": 51.5,
+        "regularMarketDayLow": 50.2,
+        "regularMarketOpen": 50.2,
+        "regularMarketPreviousClose": 49.3,
+        "sectorId": 6,
+        "sectorName": "電機",
+        "symbol": "1504.TW",
+        "symbolName": "東元",
+        "systexId": 1504,
+        "turnoverM": 950.732,
+        "volume": 18655000,
+        "previousVolumeK": 8938,
+        "volumeK": 18655,
+        "stock_id": "1504",
+        "date": "20230826"
+      }
+    ]
+  },
+  "stock-2382": {
+    "20230826": [
+      {
+        "ask": 262.5,
+        "bid": 262,
+        "change": 0.5,
+        "changePercent": 0.19,
+        "limitDownPrice": 236,
+        "limitUpPrice": 288,
+        "previousVolume": 65927000,
+        "price": 262.5,
+        "regularMarketDayHigh": 282,
+        "regularMarketDayLow": 257.5,
+        "regularMarketOpen": 282,
+        "regularMarketPreviousClose": 262,
+        "sectorId": 41,
+        "sectorName": "電腦週邊",
+        "symbol": "2382.TW",
+        "symbolName": "廣達",
+        "systexId": 2382,
+        "turnoverM": 43238.412,
+        "volume": 159567000,
+        "previousVolumeK": 65927,
+        "volumeK": 159567,
+        "stock_id": "2382",
+        "date": "20230826"
+      }
+    ]
+  },
+  "stock-2383": {
+    "20230826": [
+      {
+        "ask": 446,
+        "bid": 445,
+        "change": 11.5,
+        "changePercent": 2.65,
+        "limitDownPrice": 390.5,
+        "limitUpPrice": 476.5,
+        "previousVolume": 9437000,
+        "price": 445,
+        "regularMarketDayHigh": 462,
+        "regularMarketDayLow": 441,
+        "regularMarketOpen": 450,
+        "regularMarketPreviousClose": 433.5,
+        "sectorId": 44,
+        "sectorName": "電子零組件",
+        "symbol": "2383.TW",
+        "symbolName": "台光電",
+        "systexId": 2383,
+        "turnoverM": 5243.16,
+        "volume": 11619000,
+        "previousVolumeK": 9437,
+        "volumeK": 11619,
+        "stock_id": "2383",
+        "date": "20230826"
+      }
+    ]
+  }
+}
+
+
+########################################################
+#### merge all json
+#################
+
+pi@raspberrypi:~/src/github/stock $ cat merge_all_json.sh
+#!/bin/bash
+
+if [ "$#" -ne 1 ]; then
+  echo "Usage: $0 <merge_folder>"
+  exit 1
+fi
+
+merge_folder="$1"
+output_file="merged_eps.json"
+
+# Create an empty JSON object
+echo '{}' > "$output_file"
+
+for json_file in "$merge_folder"/*.json; do
+  if [ -f "$json_file" ]; then
+    echo "Merging $json_file"
+    jq -s '.[0] * .[1]' "$output_file" "$json_file" > temp_merged.json
+    mv temp_merged.json "$output_file"
+  fi
+done
+
+echo "All JSON files in $merge_folder merged and saved to $output_file"
+
+
+pi@raspberrypi:~/src/github/stock $ ./merge_all_json.sh aa1
+Merging aa1/eps-1.json
+Merging aa1/eps-2.json
+Merging aa1/eps-3.json
+All JSON files in aa1 merged and saved to merged_eps.json
+
+# 合併 all json 的格式如下:
+#
+# test@test-All-Series:~/src/github/stock$ jq . aa1/eps-1.json 
+# {
+#   "stock-1102": {
+#     "20180901": [
+#       {
+#         "stock_id": "1540",
+#         "revenue": 188139000,
+#         "symbol": "1540.TW",
+#         "epsQoQ": -65.38,
+#         "revenueQoQ": 41.37,
+#         "eps": 0.27,
+#         "date": "20180901",
+#         "avgPrice": 15.78,
+#         "epsYoY": -40,
+#         "revenueYoY": 24.02
+#       }
+#     ]
+#   },
+#   "stock-1101": {
+#     "20210601": [
+#       {
+#         "stock_id": "1101",
+#         "revenue": 27985712000,
+#         "symbol": "1101.TW",
+#         "epsQoQ": 117.54,
+#         "revenueQoQ": 26.99,
+#         "eps": 1.24,
+#         "date": "20210601",
+#         "avgPrice": 50.71,
+#         "epsYoY": -10.79,
+#         "revenueYoY": -8.13
+#       }
+#     ]
+#   }
+# }
+# test@test-All-Series:~/src/github/stock$ jq . aa1/eps-2.json 
+# {
+#   "stock-1102": {
+#     "20181201": [
+#       {
+#         "stock_id": "1540",
+#         "revenue": 212892000,
+#         "symbol": "1540.TW",
+#         "epsQoQ": 66.67,
+#         "revenueQoQ": 13.16,
+#         "eps": 0.45,
+#         "date": "20181201",
+#         "avgPrice": 15.7,
+#         "epsYoY": 1400,
+#         "revenueYoY": 68.68
+#       }
+#     ]
+#   },
+#   "stock-1101": {
+#     "20210901": [
+#       {
+#         "stock_id": "1101",
+#         "revenue": 26881432000,
+#         "symbol": "1101.TW",
+#         "epsQoQ": -52.42,
+#         "revenueQoQ": -3.95,
+#         "eps": 0.59,
+#         "date": "20210901",
+#         "avgPrice": 48.11,
+#         "epsYoY": -54.62,
+#         "revenueYoY": -9.82
+#       }
+#     ]
+#   }
+# }
+
+
+
+########################################################
+#### JSON 和  MessagePack 格式互換
+#################
+
+pi@raspberrypi:~/src/github/stock $ cat convert_msgpack_to_json.sh
+#!/bin/bash
+
+if [ "$#" -ne 2 ]; then
+  echo "Usage: $0 <input_msgpack> <output_json>"
+  exit 1
+fi
+
+input_msgpack="$1"
+output_json="$2"
+
+# 使用 Python 腳本進行 MessagePack 到 JSON 的轉換
+python - <<END
+import json
+import msgpack
+
+with open('$input_msgpack', 'rb') as msgpack_file:
+    packed_data = msgpack_file.read()
+
+data = msgpack.unpackb(packed_data, raw=False)
+
+json_data = json.dumps(data, indent=4)
+
+with open('$output_json', 'w') as json_file:
+    json_file.write(json_data)
+END
+
+pi@raspberrypi:~/src/github/stock $ cat convert_json_to_msgpack.sh
+#!/bin/bash
+
+if [ "$#" -ne 2 ]; then
+  echo "Usage: $0 <input_json> <output_msgpack>"
+  exit 1
+fi
+
+input_json="$1"
+output_msgpack="$2"
+
+# 使用 Python 腳本進行 JSON 到 MessagePack 的轉換
+python - <<END
+import json
+import msgpack
+
+with open('$input_json', 'r') as json_file:
+    json_data = json_file.read()
+
+data = json.loads(json_data)
+
+with open('$output_msgpack', 'wb') as msgpack_file:
+    packed_data = msgpack.packb(data)
+    msgpack_file.write(packed_data)
+END
+
+
+
+########################################################
+#### 安裝 MessagePack
+#################
+
+pi@raspberrypi:~/src/github/stock/doc $ sudo pip install msgpack
+Looking in indexes: https://pypi.org/simple, https://www.piwheels.org/simple
+Collecting msgpack
+  Downloading https://files.pythonhosted.org/packages/dc/a1/eba11a0d4b764bc62966a565b470f8c6f38242723ba3057e9b5098678c30/msgpack-1.0.5.tar.gz (127kB)
+    100% |████████████████████████████████| 133kB 718kB/s
+  Installing build dependencies ... done
+Building wheels for collected packages: msgpack
+  Running setup.py bdist_wheel for msgpack ... done
+  Stored in directory: /root/.cache/pip/wheels/2c/9b/5c/6af63fad89bcd518c788e18a519fd41b60ba9270b7e215a7d6
+Successfully built msgpack
+Installing collected packages: msgpack
+Successfully installed msgpack-1.0.5
+
+
+########################################################
+#### 將兩個 json 合併, 並將 .TW 和 .TWO 刪除, 重複的也刪除
+#################
+
+pi@raspberrypi:~/src/github/stock/old $ jq . a1.json
+[
+  "00850.TW",
+  "00897.TW",
+  "00876.TW",
+  "00903.TW",
+  "00734B.TWO",
+  "00928.TWO",
+  "00708L.TW",
+  "00922.TW",
+  "00683L.TW",
+  "00877.TWO",
+  "00896.TW",
+  "00675L.TW"
+]
+pi@raspberrypi:~/src/github/stock/old $ jq . a2.json
+[
+  "00632R.TW",
+  "00637L.TW",
+  "00929.TW",
+  "00878.TW",
+  "00665L.TW",
+  "00919.TW",
+  "00673R.TW",
+  "00753L.TW",
+  "00712.TW",
+  "00931B.TWO"
+]
+pi@raspberrypi:~/src/github/stock/old $ jq -s '[.[0][], .[1][]] | map(sub("\\.TW$"; "")) | map(sub("\\.TWO$"; "")) | unique' a1.json a2.json > merged-id.json
+pi@raspberrypi:~/src/github/stock/old $ jq . merged-id.json
+[
+  "00632R",
+  "00637L",
+  "00665L",
+  "00673R",
+  "00675L",
+  "00683L",
+  "00708L",
+  "00712",
+  "00734B",
+  "00753L",
+  "00850",
+  "00876",
+  "00877",
+  "00878",
+  "00896",
+  "00897",
+  "00903",
+  "00919",
+  "00922",
+  "00928",
+  "00929",
+  "00931B"
+]
+
+
+########################################################
+#### 新增屬性, 刪除屬性
+#################
+
+#範例1: 新增 symbol 屬性
+
+jq .data.list ./json/tw-computer-list2-history-20230823.json | jq 'map(. + {"symbol": .id})' > vv.json
+
+
+#範例2: 
+
+stock_id2="$stock_id.TW"
+## 直接在所有的陣列內插入 "symbol": 1312.TW"
+jq .data.list ./json/chips-$stock_id.json | jq 'map(. + {"symbol": "'"$stock_id2"'"})' > ./json/sd-$date3.json
+
+
+jq .data.list ./json/mainHold-$stock_id.json | jq '[.[] | . + .quoteStats | del(.quoteStats)]' | jq 'map(. + {"symbol": "'"$stock_id2"'"})' > ./json/sd-$date3.json
+
+
+########################################################
+#### 如何 只取出 ss.json 部分的 陣列?
+#################
+
+只取出 2 ~ 5 的陣列
+jq '.[2:6]' ss.json
+
+
+出倒數 3 個陣列，可以使用以下方式：
+jq '.[-3:]' ss.json
+
+########################################################
+#### 如何將  ss.json 移除 屬性是 object, 並自動移除 屬性的值是 null 及 false
+#################
+
+
+jq 'map(
+  with_entries(
+    select(.value != null and .value != false) |
+    if .value | type == "object" then empty else . end
+  )
+)' ss.json > dd.json
+
+
+jq . ss.json
+[
+  {
+    "exchange": null,
+    "symbol": "6129.TWO",
+    "date": "2023-04-19T00:00:00+08:00",
+    "updatedTs": null,
+    "dayTradingVolK": "1",
+    "shortFinancingPercent": "0.13",
+    "financingBuyVolK": "942",
+    "financingSellVolK": "696",
+    "financingPaybackVolK": "0",
+    "financingTotalVolK": "13230",
+    "financingLimitVolK": "45235",
+    "financingBuyM": null,
+    "financingSellM": null,
+    "financingPaybackM": null,
+    "financingTotalM": null,
+    "financingUsageRatio": "0.292500",
+    "financingChangeM": null,
+    "financingChangePercent": null,
+    "shortBuyVolK": "3",
+    "shortSellVolK": "0",
+    "shortRepayVolK": "0",
+    "shortTotalVolK": "17",
+    "shortLimitVolK": "45235",
+    "shortChangeVolK": null,
+    "shortChangePercent": null,
+    "shortUsageRatio": "0.000400",
+    "shortFinancingPercentChange": null,
+    "lendingSellVolK": "177",
+    "lendingRepayVolK": "293",
+    "lendingTotalVolK": "4280",
+    "period": "day",
+    "periodSum": null,
+    "endDate": null,
+    "totalDays": 0,
+    "quoteStats": {
+      "volumeK": "9000",
+      "changePercent": "-1.8600",
+      "closePrice": "36.90"
+    }
+  }
+]
+
+jq . dd.json
+[
+  {
+    "symbol": "6129.TWO",
+    "date": "2023-04-19T00:00:00+08:00",
+    "dayTradingVolK": "1",
+    "shortFinancingPercent": "0.13",
+    "financingBuyVolK": "942",
+    "financingSellVolK": "696",
+    "financingPaybackVolK": "0",
+    "financingTotalVolK": "13230",
+    "financingLimitVolK": "45235",
+    "financingUsageRatio": "0.292500",
+    "shortBuyVolK": "3",
+    "shortSellVolK": "0",
+    "shortRepayVolK": "0",
+    "shortTotalVolK": "17",
+    "shortLimitVolK": "45235",
+    "shortUsageRatio": "0.000400",
+    "lendingSellVolK": "177",
+    "lendingRepayVolK": "293",
+    "lendingTotalVolK": "4280",
+    "period": "day",
+    "totalDays": 0
+  }
+]
+
+
+########################################################
+#### 要將所有的 ss.json 內容合併並移除所有屬性值為 null 的屬性
+#################
+
+jq 'map(
+  with_entries(select(.value != null)) |
+  map_values(if type == "object" then with_entries(select(.value != null)) else . end)
+)' ss.json > dd.json
+
+jq . ss.json
+[
+  {
+    "exchange": null,
+    "symbol": "6129.TWO",
+    "date": "2023-08-28T00:00:00+08:00",
+    "updatedTs": null,
+    "dayTradingVolK": "0",
+    "shortFinancingPercent": "0.41",
+    "financingBuyVolK": "12",
+    "financingSellVolK": "11",
+    "financingPaybackVolK": "2",
+    "financingTotalVolK": "8487",
+    "financingLimitVolK": "45235",
+    "financingBuyM": null,
+    "financingSellM": null,
+    "financingPaybackM": null,
+    "financingTotalM": null,
+    "financingUsageRatio": "0.187600",
+    "financingChangeM": null,
+    "financingChangePercent": null,
+    "shortBuyVolK": "2",
+    "shortSellVolK": "1",
+    "shortRepayVolK": "0",
+    "shortTotalVolK": "35",
+    "shortLimitVolK": "45235",
+    "shortChangeVolK": null,
+    "shortChangePercent": null,
+    "shortUsageRatio": "0.000800",
+    "shortFinancingPercentChange": null,
+    "lendingSellVolK": "8",
+    "lendingRepayVolK": "149",
+    "lendingTotalVolK": "6524",
+    "period": "day",
+    "periodSum": null,
+    "endDate": null,
+    "totalDays": 0,
+    "quoteStats": {
+      "volumeK": "400",
+      "testvol": null,
+      "changePercent": "0.0000",
+      "rest": null,
+      "closePrice": "28.80"
+    }
+  },
+  {
+    "exchange": null,
+    "symbol": "6129.TWO",
+    "date": "2023-04-19T00:00:00+08:00",
+    "updatedTs": null,
+    "dayTradingVolK": "1",
+    "shortFinancingPercent": "0.13",
+    "financingBuyVolK": "942",
+    "financingSellVolK": "696",
+    "financingPaybackVolK": "0",
+    "financingTotalVolK": "13230",
+    "financingLimitVolK": "45235",
+    "financingBuyM": null,
+    "financingSellM": null,
+    "financingPaybackM": null,
+    "financingTotalM": null,
+    "financingUsageRatio": "0.292500",
+    "financingChangeM": null,
+    "financingChangePercent": null,
+    "shortBuyVolK": "3",
+    "shortSellVolK": "0",
+    "shortRepayVolK": "0",
+    "shortTotalVolK": "17",
+    "shortLimitVolK": "45235",
+    "shortChangeVolK": null,
+    "shortChangePercent": null,
+    "shortUsageRatio": "0.000400",
+    "shortFinancingPercentChange": null,
+    "lendingSellVolK": "177",
+    "lendingRepayVolK": "293",
+    "lendingTotalVolK": "4280",
+    "period": "day",
+    "periodSum": null,
+    "endDate": null,
+    "totalDays": 0,
+    "quoteStats": {
+      "volumeK": "9000",
+      "changePercent": "-1.8600",
+      "closePrice": "36.90"
+    }
+  }
+]
+
+jq . dd.json
+[
+  {
+    "symbol": "6129.TWO",
+    "date": "2023-08-28T00:00:00+08:00",
+    "dayTradingVolK": "0",
+    "shortFinancingPercent": "0.41",
+    "financingBuyVolK": "12",
+    "financingSellVolK": "11",
+    "financingPaybackVolK": "2",
+    "financingTotalVolK": "8487",
+    "financingLimitVolK": "45235",
+    "financingUsageRatio": "0.187600",
+    "shortBuyVolK": "2",
+    "shortSellVolK": "1",
+    "shortRepayVolK": "0",
+    "shortTotalVolK": "35",
+    "shortLimitVolK": "45235",
+    "shortUsageRatio": "0.000800",
+    "lendingSellVolK": "8",
+    "lendingRepayVolK": "149",
+    "lendingTotalVolK": "6524",
+    "period": "day",
+    "totalDays": 0,
+    "quoteStats": {
+      "volumeK": "400",
+      "changePercent": "0.0000",
+      "closePrice": "28.80"
+    }
+  },
+  {
+    "symbol": "6129.TWO",
+    "date": "2023-04-19T00:00:00+08:00",
+    "dayTradingVolK": "1",
+    "shortFinancingPercent": "0.13",
+    "financingBuyVolK": "942",
+    "financingSellVolK": "696",
+    "financingPaybackVolK": "0",
+    "financingTotalVolK": "13230",
+    "financingLimitVolK": "45235",
+    "financingUsageRatio": "0.292500",
+    "shortBuyVolK": "3",
+    "shortSellVolK": "0",
+    "shortRepayVolK": "0",
+    "shortTotalVolK": "17",
+    "shortLimitVolK": "45235",
+    "shortUsageRatio": "0.000400",
+    "lendingSellVolK": "177",
+    "lendingRepayVolK": "293",
+    "lendingTotalVolK": "4280",
+    "period": "day",
+    "totalDays": 0,
+    "quoteStats": {
+      "volumeK": "9000",
+      "changePercent": "-1.8600",
+      "closePrice": "36.90"
+    }
+  }
+]
+
+
+########################################################
+#### jq -s . 合併多個 json 成一個
+#################
+
+
+在 jq 命令中，-s 参数表示将输入的 JSON 对象视为一个整体，也就是将多个 JSON 对象合并成
+一个数组。这个参数用于处理多个 JSON 对象并将它们组合在一起，可以用于数组的构建、合并和
+重组等操作。
+
+具体来说，-s 参数将会：
+
+1. 将输入的每个 JSON 对象（可以是多个文件或多行文本）解析为单独的 JSON 值。
+2. 将这些 JSON 值组合成一个数组。
+3. 输出这个包含合并后 JSON 值的数组。
+
+这在处理多个 JSON 文件或者将多个 JSON 对象合并成一个数组时非常有用。例如，如果您有多个
+ JSON 文件，想要将它们合并为一个 JSON 数组，您可以使用以下命令：
+
+jq -s '.' file1.json file2.json file3.json > merged.json
+
+
+########################################################
+#### 載入多個 json 進行 排序
+#################
+
+#範例1:
+
+jq -s 'sort_by(.key)' file1.json file2.json file3.json > sorted_output.json
+
+
+#範例2:
+
+json_to_json6() {
+  target_file=$1
+  shift  # 移除目标文件参数，现在 $@ 中只包含源文件参数
+  # ...（您的现有代码）...
+  
+  for source_file in "$@"; do
+    # 检查源文件是否存在且是数组
+    if [ -f "$source_file" ] && jq -e 'length > 0' "$source_file" > /dev/null; then
+      # ...（您的现有代码，遍历源 JSON 数组中的每个元素）...
+    else
+      echo "Source JSON file $source_file does not exist or is empty."
+    fi
+  done
+}
+
+# 使用参数调用函数，注意这里使用了所有的源文件参数（$2, $3, ...）
+json_to_json6 "$@"
+
+./json_to_json6.sh target.json source1.json source2.json source3.json
+
+
+#範例3:
+
+myfun() {
+    target_json="$1"
+    shift
+    source_base_file="$1"
+    shift
+    
+    # 读取 source_base_file 文件中的源 JSON 文件列表
+    while IFS= read -r source_file; do
+        jq -s '.' "$target_json" "$source_file" > tmp.json && mv tmp.json "$target_json"
+    done < "$source_base_file"
+}
+
+# 使用参数调用函数
+myfun aa.json source_base_file.txt
+
+例如，如果 source_base_file.txt 包含以下内容：
+s1.json
+s2.json
+s3.json
+
+
+########################################################
+#### 將每個物件的 orderbook 屬性從 ss.json 移到另一個 JSON 檔案 dd.json，同時保留原本的 symbol 和 date 屬性
+#################
+
+jq 'map({symbol, date, quoteStats})' ss.json > dd.json
+
+
+jq. ss.json
+[
+  {
+    "exchange": null,
+    "symbol": "6129.TWO",
+    "date": "2023-08-28T00:00:00+08:00",
+    "updatedTs": null,
+    "dayTradingVolK": "0",
+    "shortFinancingPercent": "0.41",
+    "financingBuyVolK": "12",
+    "financingSellVolK": "11",
+    "financingPaybackVolK": "2",
+    "financingTotalVolK": "8487",
+    "financingLimitVolK": "45235",
+    "financingBuyM": null,
+    "financingSellM": null,
+    "financingPaybackM": null,
+    "financingTotalM": null,
+    "financingUsageRatio": "0.187600",
+    "financingChangeM": null,
+    "financingChangePercent": null,
+    "shortBuyVolK": "2",
+    "shortSellVolK": "1",
+    "shortRepayVolK": "0",
+    "shortTotalVolK": "35",
+    "shortLimitVolK": "45235",
+    "shortChangeVolK": null,
+    "shortChangePercent": null,
+    "shortUsageRatio": "0.000800",
+    "shortFinancingPercentChange": null,
+    "lendingSellVolK": "8",
+    "lendingRepayVolK": "149",
+    "lendingTotalVolK": "6524",
+    "period": "day",
+    "periodSum": null,
+    "endDate": null,
+    "totalDays": 0,
+    "quoteStats": {
+      "volumeK": "400",
+      "testvol": null,
+      "changePercent": "0.0000",
+      "rest": null,
+      "closePrice": "28.80"
+    }
+
+jq . dd.json
+[
+  {
+    "symbol": "6129.TWO",
+    "date": "2023-08-28T00:00:00+08:00",
+    "quoteStats": {
+      "volumeK": "400",
+      "testvol": null,
+      "changePercent": "0.0000",
+      "rest": null,
+      "closePrice": "28.80"
+    }
+  },
+  {
+    "symbol": "6129.TWO",
+    "date": "2023-08-25T00:00:00+08:00",
+    "quoteStats": {
+      "volumeK": "341",
+      "changePercent": "0.1700",
+      "closePrice": "28.80"
+    }
+  },
+  {
+    "symbol": "6129.TWO",
+    "date": "2023-08-24T00:00:00+08:00",
+    "quoteStats": {
+      "volumeK": "632",
+      "changePercent": "0.0000",
+      "closePrice": "28.75"
+    }
+  },
+
+
+
+########################################################
+#### 刪除某個  屬性的 array
+#################
+
+#範例1:
+
+pi@raspberrypi:~/src/github/stock/example/stock $ jq . dd.json
+[
+  {
+    "dirSupHoldPercent": "10.01",
+    "endDate": "2023-08-25T00:00:00+08:00",
+    "foreignHoldPercent": "1.13",
+    "mainHolderCount": "6",
+    "mainHoldPercent": "14.08",
+    "quoteStats": {
+      "volumeK": "2490",
+      "changePercent": "0.1700",
+      "closePrice": "28.80"
+    },
+    "startDate": "2023-08-21T00:00:00+08:00"
+  },
+  {
+    "dirSupHoldPercent": "10.01",
+    "endDate": "2023-08-18T00:00:00+08:00",
+    "foreignHoldPercent": "1.02",
+    "mainHolderCount": "7",
+    "mainHoldPercent": "14.59",
+    "quoteStats": {
+      "volumeK": "5159",
+      "changePercent": "-1.0400",
+      "closePrice": "28.50"
+    },
+    "startDate": "2023-08-14T00:00:00+08:00"
+  },
+  {
+    "dirSupHoldPercent": "10.01",
+    "endDate": "2023-08-11T00:00:00+08:00",
+    "foreignHoldPercent": "0.73",
+    "mainHolderCount": "5",
+    "mainHoldPercent": "13.57",
+    "quoteStats": {
+      "volumeK": "10056",
+      "changePercent": "-1.0000",
+      "closePrice": "29.65"
+    },
+    "startDate": "2023-08-07T00:00:00+08:00"
+  }
+]
+pi@raspberrypi:~/src/github/stock/example/stock $ jq . dd.json | jq 'map(del(.quoteStats))' > gg.json
+pi@raspberrypi:~/src/github/stock/example/stock $ jq . gg.json
+[
+  {
+    "dirSupHoldPercent": "10.01",
+    "endDate": "2023-08-25T00:00:00+08:00",
+    "foreignHoldPercent": "1.13",
+    "mainHolderCount": "6",
+    "mainHoldPercent": "14.08",
+    "startDate": "2023-08-21T00:00:00+08:00"
+  },
+  {
+    "dirSupHoldPercent": "10.01",
+    "endDate": "2023-08-18T00:00:00+08:00",
+    "foreignHoldPercent": "1.02",
+    "mainHolderCount": "7",
+    "mainHoldPercent": "14.59",
+    "startDate": "2023-08-14T00:00:00+08:00"
+  },
+  {
+    "dirSupHoldPercent": "10.01",
+    "endDate": "2023-08-11T00:00:00+08:00",
+    "foreignHoldPercent": "0.73",
+    "mainHolderCount": "5",
+    "mainHoldPercent": "13.57",
+    "startDate": "2023-08-07T00:00:00+08:00"
+  }
+]
+
+
+#範例2:
+pi@raspberrypi:~/src/github/stock/example/stock $ jq .['0'] sd.json
+{
+  "symbol": "2330.TW",
+  "date": "2023-07-01T00:00:00+08:00",
+  "revenue": "177616220000.00",
+  "revenueAcc": "1167090447000.00",
+  "revenueMoM": "13.56",
+  "revenueQoQ": "0.61",
+  "revenueYoY": "-4.90",
+  "revenueYoYAcc": "-3.70",
+  "eps": "0.00",
+  "epsQoQ": null,
+  "epsYoY": null,
+  "epsAcc4Q": null,
+  "lastYear": {
+    "date": "2022-07-01T00:00:00+08:00",
+    "revenue": "186762689000.00",
+    "revenueAcc": "1211979370000.00",
+    "revenueMoM": "6.19",
+    "revenueQoQ": "0.57",
+    "revenueYoY": "49.94",
+    "revenueYoYAcc": "41.07"
+  },
+  "priceAssessment": null
+}
+pi@raspberrypi:~/src/github/stock/example/stock $ jq .['0'].lastYear sd.json
+{
+  "date": "2022-07-01T00:00:00+08:00",
+  "revenue": "186762689000.00",
+  "revenueAcc": "1211979370000.00",
+  "revenueMoM": "6.19",
+  "revenueQoQ": "0.57",
+  "revenueYoY": "49.94",
+  "revenueYoYAcc": "41.07"
+}
+
+
+
+
+
+if [[ $(echo "$attr_value" | jq . | type) == "object" ]]; then
+if [[ $(echo "$attr_value" | jq . | type) == "array" ]]; then
+
+
+########################################################
+#### 補上 [] 變成 object
+#################
+
+#範例1:
+pi@raspberrypi:~/src/github/stock/example/stock $ jq . ff.json
+{
+  "date": "2022-07-01T00:00:00+08:00",
+  "revenue": "186762689000.00",
+  "revenueAcc": "1211979370000.00",
+  "revenueMoM": "6.19",
+  "revenueQoQ": "0.57",
+  "revenueYoY": "49.94",
+  "revenueYoYAcc": "41.07"
+}
+{
+  "date": "2022-06-01T00:00:00+08:00",
+  "revenue": "175874001000.00",
+  "revenueAcc": "1025216681000.00",
+  "revenueMoM": "-5.29",
+  "revenueQoQ": "1.92",
+  "revenueYoY": "18.46",
+  "revenueYoYAcc": "39.57"
+}
+pi@raspberrypi:~/src/github/stock/example/stock $ jq -s . ff.json
+[
+  {
+    "date": "2022-07-01T00:00:00+08:00",
+    "revenue": "186762689000.00",
+    "revenueAcc": "1211979370000.00",
+    "revenueMoM": "6.19",
+    "revenueQoQ": "0.57",
+    "revenueYoY": "49.94",
+    "revenueYoYAcc": "41.07"
+  },
+  {
+    "date": "2022-06-01T00:00:00+08:00",
+    "revenue": "175874001000.00",
+    "revenueAcc": "1025216681000.00",
+    "revenueMoM": "-5.29",
+    "revenueQoQ": "1.92",
+    "revenueYoY": "18.46",
+    "revenueYoYAcc": "39.57"
+  }
+]
+
+#範例2:
+pi@raspberrypi:~/src/github/stock $ jq . s2.json
+{
+  "providerCompanyId": "86384477",
+  "symbol": "0056.TW"
+}
+pi@raspberrypi:~/src/github/stock $ jq . s2.json
+[ {
+  "providerCompanyId": "86384477",
+  "symbol": "0056.TW",
+ }
+]
+
+指令: jq '[.]' s2.json
+
+
+########################################################
+#### 排序
+#################
+
+cloud_num=10
+TOP=17
+
+if [ z"$TOP" == z ]; then TOP_num=$cloud_num; TOP_num2=0; else TOP_num=$TOP; TOP_num2=0; fi
+if [ `echo "$TOP_num > $cloud_num"|bc` -eq 1 ]; then TOP_num=$cloud_num; TOP_num2=$[$TOP-$cloud_num]; fi
+if [ `echo "$TOP_num <= 2"|bc` -eq 1 ]; then TOP_num=2; TOP_num2=0; fi
+
+#echo "$[$TOP_num-1]"
+
+line=""
+for i in $(seq 0 $[$TOP_num-1])
+do
+    line="$line $i"
+done
+#echo $line
+
+cloud_num2=10
+if [ `echo "$[$TOP] > $[$cloud_num+$cloud_num2-1]" | bc` -eq 1 ]; then echo zzzz; TOP2=$[$cloud_num+$cloud_num2-1]; else echo bbbbbbb; TOP2=$[$cloud_num+$TOP_num2-1]; fi
+
+echo "TOP2=$TOP2"
+
+for j in $(seq $cloud_num $TOP2)
+do
+    line="$line $j"
+done
+echo $line
+
+RESULT: (修改 TOP 數值)
+
+ ./aa.sh
+TOP=17
+0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16
+pi@raspberrypi:~/src/github/stock/ff $ nano aa.sh
+pi@raspberrypi:~/src/github/stock/ff $ ./aa.sh
+TOP=5
+0 1 2 3 4
+pi@raspberrypi:~/src/github/stock/ff $ nano aa.sh
+pi@raspberrypi:~/src/github/stock/ff $ ./aa.sh
+TOP=25
+0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19
+
+
+########################################################
+#### 將陣列1 轉換成 陣列2的格式
+#################
+
+myfun_array2_to_array() {
+
+    source_file="$1"
+    output_file="$2"
+
+    declare -A arrays
+
+    # Read and parse the source file
+    while IFS= read -r line; do
+        if [[ "$line" =~ ^([a-zA-Z0-9_]+)\[([0-9]+)\]=(.*)$ ]]; then
+            array_name="${BASH_REMATCH[1]}"
+            index="${BASH_REMATCH[2]}"
+            value="${BASH_REMATCH[3]}"
+
+            arrays["$array_name,$index"]="$value"
+        fi
+    done < "$source_file"
+
+    # Generate the output in the target format
+    for key in "${!arrays[@]}"; do
+        IFS="," read -r array_name index <<< "$key"
+        value="${arrays[$key]}"
+
+        new_index="${index//[^0-9]/}"  # Remove non-numeric characters from index
+        echo "${array_name}[$new_index]=$value"
+    done | sort > "$output_file"
+
+    # Generate the final output format
+    declare -A final_arrays
+
+    while IFS= read -r line; do
+        if [[ "$line" =~ ^([a-zA-Z0-9_]+)\[([0-9]+)\]=(.*)$ ]]; then
+            array_name="${BASH_REMATCH[1]}"
+            index="${BASH_REMATCH[2]}"
+            value="${BASH_REMATCH[3]}"
+
+            final_arrays["$array_name"]+=" $value"
+        fi
+    done < "$output_file"
+
+    # Write the final output to the output file
+    for array_name in "${!final_arrays[@]}"; do
+        values="${final_arrays[$array_name]}"
+        echo "${array_name}=($values)" >> "$output_file"
+    done
+
+    # Generate the final format similar to test.ini
+    final_output=""
+    for array_name in "${!final_arrays[@]}"; do
+        values="${final_arrays[$array_name]}"
+        values_trimmed="${values# }"  # Remove the leading space
+        final_output+="$array_name=($values_trimmed)\n"
+    done
+
+    echo -e "$final_output" > "$output_file"
+}
+
+### step1. 先移除來源檔案, 陣列內容有空格的地方 (myfun_remove_space_array.sh)
+./myfun_remove_space_array.sh "$1"
+sleep 1
+
+### step2. 將 $1 格式 換成 $2 格式
+myfun_array2_to_array "$1" "$2"
+
+# Usage example
+#myfun_array2_to_array "test2.ini" "test22.ini"
+#myfun_array2_to_array "test3.ini" "test33.ini"
+
+# pi@raspberrypi:~/src/github/stock/fun $ cat test2.ini
+# stock_list[0]=11
+# stock_list[1]=14
+# stock_list[2]=17
+# stock_dividend[3]=5.33
+# stock_list[3]=54
+# stock_list[4]=33
+# stock_dividend[2]=0.3
+# stock_list[5]=79
+# stock_list[6]=51
+# stock_dividend[6]=1.44
+# stock_dividend[4]=1.0
+# stock_pay[0]=5.3
+# stock_pay[1]=9.8
+# stock_dividend[5]=2.1
+# stock_pay[2]=1.2
+# stock_pay[3]=6.5
+# stock_name[2]=測試3
+# stock_pay[4]=3.4
+# stock_pay[5]=8.9
+# stock_pay[6]=1.1
+# stock_name[0]='測試1 2'
+# stock_name[1]='測試2_ 3'
+# stock_name[3]='測試4 -5'
+# stock_dividend[1]=2.0
+# stock_name[4]='測試5 AA'
+# stock_name[5]='測試6 5'
+# stock_name[6]='測試7'
+# stock_dividend[0]=0.7
+
+# pi@raspberrypi:~/src/github/stock/fun $ cat test22.ini
+# stock_dividend=(0.7 2.0 0.3 5.33 1.0 2.1 1.44)
+# stock_list=(11 14 17 54 33 79 51)
+# stock_name=('測試12' '測試2_3' 測試3 '測試4-5' '測試5AA' '測試65' '測試7')
+# stock_pay=(5.3 9.8 1.2 6.5 3.4 8.9 1.1)
+
+
+# pi@raspberrypi:~/src/github/stock/fun $ cat test3.ini
+# abd_3_AA[0]=11
+# abd_3_AA[1]=14
+# abd_3_AA[2]=17
+# hello_125A[3]=5.33
+# abd_3_AA[3]=54
+# abd_3_AA[4]=33
+# hello_125A[2]=0.3
+# abd_3_AA[5]=79
+# abd_3_AA[6]=51
+# hello_125A[6]=1.44
+# hello_125A[4]=1.0
+# fgdW4_5[0]=5.3
+# fgdW4_5[1]=9.8
+# hello_125A[5]=2.1
+# fgdW4_5[2]=1.2
+# fgdW4_5[3]=6.5
+# ff34J[2]=測試3
+# fgdW4_5[4]=3.4
+# fgdW4_5[5]=8.9
+# fgdW4_5[6]=1.1
+# ff34J[0]='測試1 2'
+# ff34J[1]='測試2 _3'
+# ff34J[3]='測試4- 5'
+# hello_125A[1]=2.0
+# ff34J[4]='測試5 AA'
+# ff34J[5]='測試6 #5#'
+# ff34J[6]='測試7'
+# hello_125A[0]=0.7
+
+# pi@raspberrypi:~/src/github/stock/fun $ cat test33.ini
+# fgdW4_5=(5.3 9.8 1.2 6.5 3.4 8.9 1.1)
+# ff34J=('測試12' '測試2_3' 測試3 '測試4-5' '測試5AA' '測試6#5#' '測試7')
+# abd_3_AA=(11 14 17 54 33 79 51)
+# hello_125A=(0.7 2.0 0.3 5.33 1.0 2.1 1.44)
+
+
+########################################################
+#### 將陣列1, 陣列2格式 內的內容, 如果有空格, 將會被移除
+#################
+
+myfun_remove_space_array() {
+
+    local source_file="$1"
+    local tmp_file="${source_file}-tmp"
+
+    # Make a copy of the source file
+    cp "$source_file" "$tmp_file"
+
+    # Remove spaces from array entries in the temporary file
+    sed -E -i '/^[[:space:]]*[^=]+(\[([0-9]+)\])?[[:space:]]*=/s/ //g' "$tmp_file"
+    sed -E -i '/^[[:space:]]*[^=]+=\('\''.*'\''\)[[:space:]]*=/s/ //g' "$tmp_file"
+    sed -E -i '/^[[:space:]]*[^=]+=\(.*\)/s/ /\n/g' "$tmp_file"
+
+    # Replace the original file with the modified temporary file
+    mv "$tmp_file" "$source_file"
+
+    echo "Spaces removed from array entries in $source_file"
+}
+
+# Usage: myfun_remove_space_array <來源檔案>
+myfun_remove_space_array "$1"
+
+#pi@raspberrypi:~/src/github/stock/fun $ cat test333.ini
+#fgdW4_5=(5.39.81.26.53.48.91.1)
+#ff34J=('測試12''測試2 _3'測試3'測試4-5''測試5 AA''測試6 #5#''測試7')
+#abd_3_AA=(11141754337951)
+#hello_125A=(0.72.00.35.331.02.11.44)
+
+#pi@raspberrypi:~/src/github/stock/fun $ cat test2222.ini
+#stock_list[0]=11
+#stock_list[1]=14
+#stock_list[2]=17
+#stock_dividend[3]=5.33
+#stock_list[3]=54
+#stock_list[4]=33
+#stock_dividend[2]=0.3
+#stock_list[5]=79
+#stock_list[6]=51
+#stock_dividend[6]=1.44
+#stock_dividend[4]=1.0
+#stock_pay[0]=5.3
+#stock_pay[1]=9.8
+#stock_dividend[5]=2.1
+#stock_pay[2]=1.2
+#stock_pay[3]=6.5
+#stock_name[2]=測試3
+#stock_pay[4]=3.4
+#stock_pay[5]=8.9
+#stock_pay[6]=1.1
+#stock_name[0]='測試1 2'
+#stock_name[1]='測試2 _3'
+#stock_name[3]='測試4-5'
+#stock_dividend[1]=2.0
+#stock_name[4]='測試5 AA'
+#stock_name[5]='測試 65'
+#stock_name[6]='測試7'
+#stock_dividend[0]=0.7
+
+#./myfun_remove_space_array.sh test333.ini
+#./myfun_remove_space_array.sh test2222.ini
+
+
+########################################################
+#### 判定 一個字串是否為某個檔案內的陣列名稱是否存在
+#################
+
+myfun1() {
+    ini_file="$1"
+    array_name="$2"
+
+    # 檢查檔案是否存在
+    if [ ! -f "$ini_file" ]; then
+        echo "錯誤：檔案 $ini_file 不存在"
+        exit 1
+    fi
+
+    # 讀取 ini_file 中的內容，並判斷是否存在該陣列
+    if grep -q "^$array_name=(" "$ini_file"; then
+        echo "陣列 $array_name 存在於 $ini_file"
+    else
+        echo "陣列 $array_name 不存在於 $ini_file"
+    fi
+}
+
+# 呼叫 myfun1 函式，傳入 test.ini 和 stock_list 參數
+myfun1 "test.ini" "stock_list"
+
+# 呼叫 myfun1 函式，傳入 test.ini 和 stock_AAAA 參數
+myfun1 "test.ini" "stock_AAAA"
+
+RESULT:
+
+陣列 stock_list 存在於 test.ini
+陣列 stock_AAAA 不存在於 test.ini
+
+#pi@raspberrypi:~/src/github/stock $ cat test.ini
+#stock_list=(11 14 17 54 33 79 51)
+#stock_pay=(5.3 9.8 1.2 6.5 3.4 8.9 1.1)
+#stock_name=(測試1 測試2 測試3 測試4 測試5 測試6 測試7)
+
+
+########################################################
+#### 加減乘除
+#################
+https://shazi.info/linux-%E7%94%A8-awk-%E5%8A%A0%E6%B8%9B%E4%B9%98%E9%99%A4%E8%88%87%E5%8F%96%E6%95%B4%E6%95%B8/
+
+pi@raspberrypi: $ echo "5 + 2" | bc
+7
+pi@raspberrypi: $ echo "5 * 2" | bc
+10
+pi@raspberrypi: $ echo "43 / 0.6" | bc   <-------  BUG
+71
+pi@raspberrypi: $ echo | awk '{print int(43*0.6)}'
+25
+pi@raspberrypi: $ echo | awk '{print 43*0.6}'
+25.8
+pi@raspberrypi: $ echo | awk '{print int(42*0.6+0.5)}'
+25
+pi@raspberrypi: $ echo | awk '{print int(43*0.6+0.5)}'
+26
+
+########################################################
+#### 將變數轉化成陣列 aa=(11 22 33 44)  這樣的格式
+#################
+
+aa=""
+flag=1
+while IFS= read -r line
+do
+#    echo "flag: $flag"
+     if [ "$flag" == "1" ]; then
+        aa="$line"
+     else
+        aa="$aa $line"
+     fi
+     flag=$[$flag+1]
+done < "./stock_list.csv"
+aa="stock_list=($aa)"
+
+
+########################################################
+####  shell script + python: 擷取股票代碼以及股票名稱
+#################
+
+# 使用Python脚本来获取股票数据
+python3 - <<EOF
+
+import requests
+import pandas as pd
+
+result = requests.get("https://isin.twse.com.tw/isin/class_main.jsp?owncode=&stockname=&isincode=&market=1&issuetype=1&industry_code=&Page=1&chklike=Y")
+## 股票代碼ID
+df = pd.read_html(result.text)[0][2][1:]
+#print(df)
+# 將 DataFrame 儲存成 CSV 檔案
+df.to_csv("stock_list.csv", index=False)
+
+## 股要名稱name
+df = pd.read_html(result.text)[0][3][1:]
+#print(df)
+# 將 DataFrame 儲存成 CSV 檔案
+df.to_csv("stock_name.csv", index=False)
+
+EOF
+
+########################################################
+#### 乘除:
+#################
+
+today_price1=23.71
+echo 'today_price1 = '$today_price1
+today_price=$(echo "scale=2; $today_price1 * 1000" | bc)
+echo 'echo "scale=2; $today_price1 * 1000" | bc: '$today_price
+
+today_price=$(echo "scale=6; $today_price1 * 1000" | bc)
+echo 'echo "scale=6; $today_price1 * 1000" | bc: '$today_price
+
+today_price_percent=$(echo "scale=2; 1000000 / $today_price" | bc)
+echo 'echo "scale=2; 1000000 / $today_price" | bc: '$today_price_percent
+
+today_price_percent=$(echo "scale=6; 1000000 / $today_price" | bc)
+echo 'echo "scale=6; 1000000 / $today_price" | bc: '$today_price_percent
+
+RESULT:
+
+today_price1 = 23.71
+echo "scale=2; $today_price1 * 1000" | bc: 23710.00
+echo "scale=6; $today_price1 * 1000" | bc: 23710.00
+echo "scale=2; 1000000 / $today_price" | bc: 42.17
+echo "scale=6; 1000000 / $today_price" | bc: 42.176296
+
+
+########################################################
+#### 比大小:
+#################
+
+i=3.17
+if [ `echo "$i <= 9"|bc` -eq 1 ]; then
+    echo "$i, $i <= 9, pass"
+else
+    echo "$i, $i <= 9, fail"
+fi
+
+i=12.51
+if [ `echo "$i <= 9"|bc` -eq 1 ]; then
+    echo "$i, $i <= 9, pass"
+else
+    echo "$i, $i <= 9, fail"
+fi
+
+RESULT:
+
+3.17, 3.17 <= 9, pass
+12.51, 12.51 <= 9, fail
+
+########################################################
+#### 陣列:
+#################
+
+list1=(105 330 254 196 293 966 218 237)
+list2=(AA BB CC DD EE FF GG HH)
+
+for ((i=0; i<${#list1[@]}; i++))
+do
+  echo "${list1[$i]}(${list2[$i]})"
+done
+
+RESULT:
+
+105(AA)
+330(BB)
+254(CC)
+196(DD)
+293(EE)
+966(FF)
+218(GG)
+237(HH)
+
+########################################################
+
