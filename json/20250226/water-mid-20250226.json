@@ -1,0 +1,80 @@
+{
+  "AreaCode": "A02",
+  "AreaName": "中區",
+  "ReservoirRealTimeInfos": [
+    {
+      "StationNo": "20101",
+      "StationName": {
+        "zh_TW": "鯉魚潭水庫"
+      },
+      "Time": "2025-02-26T10:00:00+00:00",
+      "EffectiveStorage": 9096.83,
+      "PercentageOfStorage": 78.75675076663083,
+      "Status": 5,
+      "AccumulatedRainfall": 0,
+      "YesterdayAccumulatedRainfall": 0,
+      "EffectiveCapacity": 11550.54
+    },
+    {
+      "StationNo": "20201",
+      "StationName": {
+        "zh_TW": "德基水庫"
+      },
+      "Time": "2025-02-26T07:00:00+00:00",
+      "EffectiveStorage": 18007.26,
+      "PercentageOfStorage": 95.80276417867884,
+      "Status": 5,
+      "AccumulatedRainfall": 0,
+      "YesterdayAccumulatedRainfall": 0,
+      "EffectiveCapacity": 18796.18
+    },
+    {
+      "StationNo": "20501",
+      "StationName": {
+        "zh_TW": "霧社水庫"
+      },
+      "Time": "2025-02-26T07:00:00+00:00",
+      "EffectiveStorage": 2083.56,
+      "PercentageOfStorage": 72.63435312491285,
+      "Status": 5,
+      "YesterdayAccumulatedRainfall": 0,
+      "EffectiveCapacity": 2868.56
+    },
+    {
+      "StationNo": "20502",
+      "StationName": {
+        "zh_TW": "日月潭水庫"
+      },
+      "Time": "2025-02-26T07:00:00+00:00",
+      "EffectiveStorage": 12222.92,
+      "PercentageOfStorage": 94.39211558495616,
+      "Status": 5,
+      "YesterdayAccumulatedRainfall": 0,
+      "EffectiveCapacity": 12949.09
+    },
+    {
+      "StationNo": "20503",
+      "StationName": {
+        "zh_TW": "集集攔河堰"
+      },
+      "Time": "2025-02-26T07:00:00+00:00",
+      "EffectiveStorage": 68.76,
+      "PercentageOfStorage": 11.405254777070065,
+      "Status": 5,
+      "YesterdayAccumulatedRainfall": 0,
+      "EffectiveCapacity": 531.61
+    },
+    {
+      "StationNo": "20509",
+      "StationName": {
+        "zh_TW": "湖山水庫"
+      },
+      "Time": "2025-02-26T10:00:00+00:00",
+      "EffectiveStorage": 3489.66,
+      "PercentageOfStorage": 68.9552421068689,
+      "Status": 5,
+      "YesterdayAccumulatedRainfall": 0,
+      "EffectiveCapacity": 5060.761
+    }
+  ]
+}

@@ -1,0 +1,78 @@
+{
+  "AreaCode": "A01",
+  "AreaName": "北區",
+  "ReservoirRealTimeInfos": [
+    {
+      "StationNo": "10201",
+      "StationName": {
+        "zh_TW": "石門水庫"
+      },
+      "Time": "2023-11-11T00:00:00+00:00",
+      "EffectiveStorage": 19083.115,
+      "PercentageOfStorage": 92.9704068155477,
+      "Status": 5,
+      "YesterdayAccumulatedRainfall": 0,
+      "EffectiveCapacity": 20526
+    },
+    {
+      "StationNo": "10204",
+      "StationName": {
+        "zh_TW": "新山水庫"
+      },
+      "Time": "2023-11-10T07:00:00+00:00",
+      "EffectiveStorage": 903.71,
+      "PercentageOfStorage": 90.73757982248283,
+      "Status": 5,
+      "YesterdayAccumulatedRainfall": 0,
+      "EffectiveCapacity": 995.96
+    },
+    {
+      "StationNo": "10205",
+      "StationName": {
+        "zh_TW": "翡翠水庫"
+      },
+      "Time": "2023-11-11T00:00:00+00:00",
+      "EffectiveStorage": 28118.18,
+      "PercentageOfStorage": 83.80852744370428,
+      "Status": 5,
+      "YesterdayAccumulatedRainfall": 0,
+      "EffectiveCapacity": 33550.5
+    },
+    {
+      "StationNo": "10405",
+      "StationName": {
+        "zh_TW": "寶山第二水庫"
+      },
+      "Time": "2023-11-11T00:00:00+00:00",
+      "EffectiveStorage": 2865.58,
+      "PercentageOfStorage": 91.052307144809,
+      "Status": 5,
+      "YesterdayAccumulatedRainfall": 0,
+      "EffectiveCapacity": 3147.18
+    },
+    {
+      "StationNo": "10501",
+      "StationName": {
+        "zh_TW": "永和山水庫"
+      },
+      "Time": "2023-11-10T07:00:00+00:00",
+      "EffectiveStorage": 2983.1,
+      "PercentageOfStorage": 99.65491092158494,
+      "Status": 5,
+      "YesterdayAccumulatedRainfall": 0,
+      "EffectiveCapacity": 2993.43
+    },
+    {
+      "StationNo": "10601",
+      "StationName": {
+        "zh_TW": "明德水庫"
+      },
+      "Time": "2023-11-10T07:00:00+00:00",
+      "EffectiveStorage": 964.4748,
+      "PercentageOfStorage": 77.79026325977546,
+      "Status": 5,
+      "YesterdayAccumulatedRainfall": 0,
+      "EffectiveCapacity": 1239.84
+    }
+  ]
+}
