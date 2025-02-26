@@ -1,0 +1,78 @@
+{
+  "AreaCode": "A01",
+  "AreaName": "北區",
+  "ReservoirRealTimeInfos": [
+    {
+      "StationNo": "10201",
+      "StationName": {
+        "zh_TW": "石門水庫"
+      },
+      "Time": "2024-04-30T14:00:00+00:00",
+      "EffectiveStorage": 5757.137,
+      "PercentageOfStorage": 28.04800835622705,
+      "Status": 5,
+      "YesterdayAccumulatedRainfall": 0.1,
+      "EffectiveCapacity": 20526
+    },
+    {
+      "StationNo": "10204",
+      "StationName": {
+        "zh_TW": "新山水庫"
+      },
+      "Time": "2024-04-30T07:00:00+00:00",
+      "EffectiveStorage": 958.29,
+      "PercentageOfStorage": 96.21771958713201,
+      "Status": 5,
+      "YesterdayAccumulatedRainfall": 0,
+      "EffectiveCapacity": 995.96
+    },
+    {
+      "StationNo": "10205",
+      "StationName": {
+        "zh_TW": "翡翠水庫"
+      },
+      "Time": "2024-04-30T14:00:00+00:00",
+      "EffectiveStorage": 24880.784430346,
+      "PercentageOfStorage": 67.24977600110203,
+      "Status": 5,
+      "YesterdayAccumulatedRainfall": 0,
+      "EffectiveCapacity": 36997.6
+    },
+    {
+      "StationNo": "10405",
+      "StationName": {
+        "zh_TW": "寶山第二水庫"
+      },
+      "Time": "2024-04-30T14:00:00+00:00",
+      "EffectiveStorage": 1209.07,
+      "PercentageOfStorage": 38.417567473102906,
+      "Status": 5,
+      "YesterdayAccumulatedRainfall": 0,
+      "EffectiveCapacity": 3147.18
+    },
+    {
+      "StationNo": "10501",
+      "StationName": {
+        "zh_TW": "永和山水庫"
+      },
+      "Time": "2024-04-30T07:00:00+00:00",
+      "EffectiveStorage": 1659.9,
+      "PercentageOfStorage": 55.45143865064491,
+      "Status": 5,
+      "YesterdayAccumulatedRainfall": 0,
+      "EffectiveCapacity": 2993.43
+    },
+    {
+      "StationNo": "10601",
+      "StationName": {
+        "zh_TW": "明德水庫"
+      },
+      "Time": "2024-04-30T07:00:00+00:00",
+      "EffectiveStorage": 441.71,
+      "PercentageOfStorage": 35.30855315747402,
+      "Status": 5,
+      "YesterdayAccumulatedRainfall": 0,
+      "EffectiveCapacity": 1239.84
+    }
+  ]
+}
