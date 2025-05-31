@@ -1,0 +1,80 @@
+{
+  "AreaCode": "A01",
+  "AreaName": "北區",
+  "ReservoirRealTimeInfos": [
+    {
+      "StationNo": "10201",
+      "StationName": {
+        "zh_TW": "石門水庫"
+      },
+      "Time": "2025-06-01T00:00:00+00:00",
+      "EffectiveStorage": 19714.5,
+      "PercentageOfStorage": 96.04647763811751,
+      "Status": 5,
+      "AccumulatedRainfall": 0,
+      "YesterdayAccumulatedRainfall": 2.8,
+      "EffectiveCapacity": 20526
+    },
+    {
+      "StationNo": "10204",
+      "StationName": {
+        "zh_TW": "新山水庫"
+      },
+      "Time": "2025-05-31T07:00:00+00:00",
+      "EffectiveStorage": 972.64,
+      "PercentageOfStorage": 97.65854050363468,
+      "Status": 5,
+      "YesterdayAccumulatedRainfall": 0.5,
+      "EffectiveCapacity": 995.96
+    },
+    {
+      "StationNo": "10205",
+      "StationName": {
+        "zh_TW": "翡翠水庫"
+      },
+      "Time": "2025-06-01T01:00:00+00:00",
+      "EffectiveStorage": 27400.237552692,
+      "PercentageOfStorage": 74.05949994781284,
+      "Status": 5,
+      "YesterdayAccumulatedRainfall": 0,
+      "EffectiveCapacity": 36997.6
+    },
+    {
+      "StationNo": "10405",
+      "StationName": {
+        "zh_TW": "寶山第二水庫"
+      },
+      "Time": "2025-06-01T01:00:00+00:00",
+      "EffectiveStorage": 3384.18,
+      "PercentageOfStorage": 100,
+      "Status": 5,
+      "YesterdayAccumulatedRainfall": 0.8,
+      "EffectiveCapacity": 3383.71
+    },
+    {
+      "StationNo": "10501",
+      "StationName": {
+        "zh_TW": "永和山水庫"
+      },
+      "Time": "2025-06-01T01:00:00+00:00",
+      "EffectiveStorage": 2983.076,
+      "PercentageOfStorage": 99.65410916573964,
+      "Status": 5,
+      "AccumulatedRainfall": 5.5,
+      "YesterdayAccumulatedRainfall": 2,
+      "EffectiveCapacity": 2993.43
+    },
+    {
+      "StationNo": "10601",
+      "StationName": {
+        "zh_TW": "明德水庫"
+      },
+      "Time": "2025-05-31T07:00:00+00:00",
+      "EffectiveStorage": 1209.6249,
+      "PercentageOfStorage": 97.37135750394437,
+      "Status": 5,
+      "YesterdayAccumulatedRainfall": 9.8,
+      "EffectiveCapacity": 1242.28
+    }
+  ]
+}
