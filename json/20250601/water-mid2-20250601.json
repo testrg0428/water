@@ -1,0 +1,79 @@
+{
+  "AreaCode": "A02",
+  "AreaName": "中區",
+  "ReservoirRealTimeInfos": [
+    {
+      "StationNo": "20101",
+      "StationName": {
+        "zh_TW": "鯉魚潭水庫"
+      },
+      "Time": "2025-06-01T01:00:00+00:00",
+      "EffectiveStorage": 11619.63,
+      "PercentageOfStorage": 100,
+      "Status": 5,
+      "AccumulatedRainfall": 0,
+      "YesterdayAccumulatedRainfall": 0,
+      "EffectiveCapacity": 11584.35
+    },
+    {
+      "StationNo": "20201",
+      "StationName": {
+        "zh_TW": "德基水庫"
+      },
+      "Time": "2025-05-31T07:00:00+00:00",
+      "EffectiveStorage": 16260.33,
+      "PercentageOfStorage": 86.50869485182628,
+      "Status": 5,
+      "YesterdayAccumulatedRainfall": 0,
+      "EffectiveCapacity": 18796.18
+    },
+    {
+      "StationNo": "20501",
+      "StationName": {
+        "zh_TW": "霧社水庫"
+      },
+      "Time": "2025-05-31T07:00:00+00:00",
+      "EffectiveStorage": 1701.48,
+      "PercentageOfStorage": 59.31477814652648,
+      "Status": 5,
+      "YesterdayAccumulatedRainfall": 0,
+      "EffectiveCapacity": 2868.56
+    },
+    {
+      "StationNo": "20502",
+      "StationName": {
+        "zh_TW": "日月潭水庫"
+      },
+      "Time": "2025-05-31T07:00:00+00:00",
+      "EffectiveStorage": 10746.18,
+      "PercentageOfStorage": 82.98791652540835,
+      "Status": 5,
+      "YesterdayAccumulatedRainfall": 0.5,
+      "EffectiveCapacity": 12949.09
+    },
+    {
+      "StationNo": "20503",
+      "StationName": {
+        "zh_TW": "集集攔河堰"
+      },
+      "Time": "2025-06-01T01:00:00+00:00",
+      "EffectiveStorage": 192.68,
+      "PercentageOfStorage": 31.959925690021233,
+      "Status": 5,
+      "YesterdayAccumulatedRainfall": 0.1,
+      "EffectiveCapacity": 531.61
+    },
+    {
+      "StationNo": "20509",
+      "StationName": {
+        "zh_TW": "湖山水庫"
+      },
+      "Time": "2025-06-01T01:00:00+00:00",
+      "EffectiveStorage": 2987.2,
+      "PercentageOfStorage": 59.25806020311041,
+      "Status": 5,
+      "YesterdayAccumulatedRainfall": 0,
+      "EffectiveCapacity": 5041.002
+    }
+  ]
+}
