@@ -1,0 +1,80 @@
+{
+  "AreaCode": "A02",
+  "AreaName": "中區",
+  "ReservoirRealTimeInfos": [
+    {
+      "StationNo": "20101",
+      "StationName": {
+        "zh_TW": "鯉魚潭水庫"
+      },
+      "Time": "2025-06-25T00:00:00+00:00",
+      "EffectiveStorage": 11610.81,
+      "PercentageOfStorage": 100,
+      "Status": 5,
+      "AccumulatedRainfall": 0,
+      "YesterdayAccumulatedRainfall": 0,
+      "EffectiveCapacity": 11584.35
+    },
+    {
+      "StationNo": "20201",
+      "StationName": {
+        "zh_TW": "德基水庫"
+      },
+      "Time": "2025-06-24T07:00:00+00:00",
+      "EffectiveStorage": 17840.88,
+      "PercentageOfStorage": 94.91758431766455,
+      "Status": 5,
+      "AccumulatedRainfall": 0,
+      "YesterdayAccumulatedRainfall": 2.5,
+      "EffectiveCapacity": 18796.18
+    },
+    {
+      "StationNo": "20501",
+      "StationName": {
+        "zh_TW": "霧社水庫"
+      },
+      "Time": "2025-06-24T07:00:00+00:00",
+      "EffectiveStorage": 1441.23,
+      "PercentageOfStorage": 50.24228184176033,
+      "Status": 5,
+      "YesterdayAccumulatedRainfall": 0,
+      "EffectiveCapacity": 2868.56
+    },
+    {
+      "StationNo": "20502",
+      "StationName": {
+        "zh_TW": "日月潭水庫"
+      },
+      "Time": "2025-06-24T07:00:00+00:00",
+      "EffectiveStorage": 12479.95,
+      "PercentageOfStorage": 96.37704271110942,
+      "Status": 5,
+      "YesterdayAccumulatedRainfall": 0,
+      "EffectiveCapacity": 12949.09
+    },
+    {
+      "StationNo": "20503",
+      "StationName": {
+        "zh_TW": "集集攔河堰"
+      },
+      "Time": "2025-06-25T00:00:00+00:00",
+      "EffectiveStorage": 130.74,
+      "PercentageOfStorage": 21.685907643312103,
+      "Status": 5,
+      "YesterdayAccumulatedRainfall": 0.3,
+      "EffectiveCapacity": 531.61
+    },
+    {
+      "StationNo": "20509",
+      "StationName": {
+        "zh_TW": "湖山水庫"
+      },
+      "Time": "2025-06-25T00:00:00+00:00",
+      "EffectiveStorage": 5055.51,
+      "PercentageOfStorage": 100,
+      "Status": 5,
+      "YesterdayAccumulatedRainfall": 0,
+      "EffectiveCapacity": 5041.002
+    }
+  ]
+}
