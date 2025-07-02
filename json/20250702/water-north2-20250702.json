@@ -1,0 +1,79 @@
+{
+  "AreaCode": "A01",
+  "AreaName": "北區",
+  "ReservoirRealTimeInfos": [
+    {
+      "StationNo": "10201",
+      "StationName": {
+        "zh_TW": "石門水庫"
+      },
+      "Time": "2025-07-02T15:00:00+00:00",
+      "EffectiveStorage": 19511.971199999996,
+      "PercentageOfStorage": 95.05978368897982,
+      "Status": 5,
+      "YesterdayAccumulatedRainfall": 0,
+      "EffectiveCapacity": 20526
+    },
+    {
+      "StationNo": "10204",
+      "StationName": {
+        "zh_TW": "新山水庫"
+      },
+      "Time": "2025-07-02T07:00:00+00:00",
+      "EffectiveStorage": 935.54,
+      "PercentageOfStorage": 93.93349130487168,
+      "Status": 5,
+      "YesterdayAccumulatedRainfall": 0,
+      "EffectiveCapacity": 995.96
+    },
+    {
+      "StationNo": "10205",
+      "StationName": {
+        "zh_TW": "翡翠水庫"
+      },
+      "Time": "2025-07-02T15:00:00+00:00",
+      "EffectiveStorage": 26333.789996956,
+      "PercentageOfStorage": 71.17702228511038,
+      "Status": 5,
+      "YesterdayAccumulatedRainfall": 0,
+      "EffectiveCapacity": 36997.6
+    },
+    {
+      "StationNo": "10405",
+      "StationName": {
+        "zh_TW": "寶山第二水庫"
+      },
+      "Time": "2025-07-02T15:00:00+00:00",
+      "EffectiveStorage": 3383.32,
+      "PercentageOfStorage": 99.98847418957298,
+      "Status": 5,
+      "YesterdayAccumulatedRainfall": 0,
+      "EffectiveCapacity": 3383.71
+    },
+    {
+      "StationNo": "10501",
+      "StationName": {
+        "zh_TW": "永和山水庫"
+      },
+      "Time": "2025-07-01T23:00:00+00:00",
+      "EffectiveStorage": 3006.011,
+      "PercentageOfStorage": 100,
+      "Status": 5,
+      "AccumulatedRainfall": 0,
+      "YesterdayAccumulatedRainfall": 0,
+      "EffectiveCapacity": 2993.43
+    },
+    {
+      "StationNo": "10601",
+      "StationName": {
+        "zh_TW": "明德水庫"
+      },
+      "Time": "2025-07-02T07:00:00+00:00",
+      "EffectiveStorage": 1106.389,
+      "PercentageOfStorage": 89.06116173487459,
+      "Status": 5,
+      "YesterdayAccumulatedRainfall": 0,
+      "EffectiveCapacity": 1242.28
+    }
+  ]
+}
