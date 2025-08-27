@@ -1,0 +1,94 @@
+{
+  "AreaCode": "A03",
+  "AreaName": "南區",
+  "ReservoirRealTimeInfos": [
+    {
+      "StationNo": "30301",
+      "StationName": {
+        "zh_TW": "仁義潭水庫"
+      },
+      "Time": "2025-08-27T07:00:00+00:00",
+      "EffectiveStorage": 2376.17,
+      "PercentageOfStorage": 96.36976412186497,
+      "Status": 5,
+      "YesterdayAccumulatedRainfall": 16.5,
+      "EffectiveCapacity": 2465.68
+    },
+    {
+      "StationNo": "30401",
+      "StationName": {
+        "zh_TW": "白河水庫"
+      },
+      "Time": "2025-08-27T08:00:00+00:00",
+      "EffectiveStorage": 1164,
+      "PercentageOfStorage": 82.8967721535214,
+      "Status": 5,
+      "YesterdayAccumulatedRainfall": 0,
+      "EffectiveCapacity": 1404.156
+    },
+    {
+      "StationNo": "30501",
+      "StationName": {
+        "zh_TW": "烏山頭水庫"
+      },
+      "Time": "2025-08-27T07:00:00+00:00",
+      "EffectiveStorage": 6639,
+      "PercentageOfStorage": 85.79801784479876,
+      "Status": 5,
+      "YesterdayAccumulatedRainfall": 36.8,
+      "EffectiveCapacity": 7737.941
+    },
+    {
+      "StationNo": "30502",
+      "StationName": {
+        "zh_TW": "曾文水庫"
+      },
+      "Time": "2025-08-27T16:00:00+00:00",
+      "EffectiveStorage": 47787,
+      "PercentageOfStorage": 100,
+      "Status": 5,
+      "AccumulatedRainfall": 0.1,
+      "YesterdayAccumulatedRainfall": 28.1,
+      "EffectiveCapacity": 45563
+    },
+    {
+      "StationNo": "30503",
+      "StationName": {
+        "zh_TW": "南化水庫"
+      },
+      "Time": "2025-08-27T07:00:00+00:00",
+      "EffectiveStorage": 8474.5,
+      "PercentageOfStorage": 99.43526822119463,
+      "Status": 5,
+      "AccumulatedRainfall": 0.4,
+      "YesterdayAccumulatedRainfall": 43.4,
+      "EffectiveCapacity": 8522.63
+    },
+    {
+      "StationNo": "30802",
+      "StationName": {
+        "zh_TW": "阿公店水庫"
+      },
+      "Time": "2025-08-27T16:00:00+00:00",
+      "EffectiveStorage": 95,
+      "PercentageOfStorage": 6.471724694193977,
+      "Status": 5,
+      "AccumulatedRainfall": 0.3,
+      "YesterdayAccumulatedRainfall": 27.3,
+      "EffectiveCapacity": 1467.924
+    },
+    {
+      "StationNo": "31201",
+      "StationName": {
+        "zh_TW": "牡丹水庫"
+      },
+      "Time": "2025-08-27T16:00:00+00:00",
+      "EffectiveStorage": 2415,
+      "PercentageOfStorage": 92.1024530144008,
+      "Status": 5,
+      "AccumulatedRainfall": 5.5,
+      "YesterdayAccumulatedRainfall": 42.6,
+      "EffectiveCapacity": 2622.08
+    }
+  ]
+}
