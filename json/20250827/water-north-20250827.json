@@ -31,9 +31,9 @@
       "StationName": {
         "zh_TW": "翡翠水庫"
       },
-      "Time": "2025-08-27T16:00:00+00:00",
-      "EffectiveStorage": 27076.767798181998,
-      "PercentageOfStorage": 73.18520065675071,
+      "Time": "2025-08-27T17:00:00+00:00",
+      "EffectiveStorage": 27052.600985457997,
+      "PercentageOfStorage": 73.1198807097163,
       "Status": 5,
       "YesterdayAccumulatedRainfall": 0,
       "EffectiveCapacity": 36997.6
@@ -43,8 +43,8 @@
       "StationName": {
         "zh_TW": "寶山第二水庫"
       },
-      "Time": "2025-08-27T16:00:00+00:00",
-      "EffectiveStorage": 3392.34,
+      "Time": "2025-08-27T17:00:00+00:00",
+      "EffectiveStorage": 3390.71,
       "PercentageOfStorage": 100,
       "Status": 5,
       "AccumulatedRainfall": 31,
